@@ -1,0 +1,50 @@
+{{/* Custom head content - add analytics, custom scripts, etc. */}}
+
+{{/* Google Analytics 4 */}}
+{{ with site.Params.analytics.google.id }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ . }}');
+</script>
+{{ end }}
+
+{{/* Plausible Analytics */}}
+{{ with site.Params.analytics.plausible.domain }}
+<script defer data-domain="{{ . }}" src="https://plausible.io/js/script.js"></script>
+{{ end }}
+
+{{/* Umami Analytics */}}
+{{ with site.Params.analytics.umami }}
+{{ if and .websiteId .src }}
+<script async defer data-website-id="{{ .websiteId }}" src="{{ .src }}"></script>
+{{ end }}
+{{ end }}
+
+{{/* Siraaj Analytics */}}
+{{ with site.Params.analytics.siraaj }}
+{{ if .projectId }}
+<script src="{{ .apiUrl | default "https://siraaj.live" }}/sdk/analytics.umd.min.js"></script>
+<script>
+  const analytics = SiraajAnalytics.analytics || SiraajAnalytics.default;
+  analytics.init({
+    apiUrl: '{{ .apiUrl | default "https://siraaj.live" }}',
+    projectId: '{{ .projectId }}',
+    autoTrack: {{ .autoTrack | default true }}
+  });
+  analytics.pageView();
+</script>
+{{ end }}
+{{ end }}
+
+{{/* Custom CSS */}}
+{{ with site.Params.customCSS }}
+<style>{{ . | safeCSS }}</style>
+{{ end }}
+
+{{/* Custom head HTML */}}
+{{ with site.Params.customHead }}
+{{ . | safeHTML }}
+{{ end }}

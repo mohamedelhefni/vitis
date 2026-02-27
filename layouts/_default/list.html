@@ -1,0 +1,103 @@
+{{ partial "header.html" . }}
+
+<!-- Page Header -->
+<div class="mb-10">
+  <div class="flex items-center gap-3 mb-4">
+    <h1 class="text-2xl md:text-3xl font-semibold text-stone-900 dark:text-stone-100">
+      {{ .Title }}
+    </h1>
+  </div>
+  {{ if .Description }}
+  <p class="text-stone-600 dark:text-stone-400">{{ .Description }}</p>
+  {{ end }}
+</div>
+
+{{ .Content }}
+
+{{- $pages := union .RegularPages .Sections }}
+{{- $paginator := .Paginate $pages  }}
+
+<!-- Filter/Sort -->
+<div class="flex items-center justify-between mb-6">
+  <p class="text-stone-500 dark:text-stone-400 text-sm">
+    {{ len $paginator.Pages }} {{ if eq (len $paginator.Pages) 1 }}{{ .Site.Params.ui.stat_article | default "Article" }}{{ else }}{{ .Site.Params.ui.stat_articles | default "Articles" }}{{ end }}
+  </p>
+</div>
+
+<!-- Posts List -->
+<div class="space-y-2 mb-10">
+  {{- range $index, $page := $paginator.Pages }}
+  <article class="group relative" {{ with .Params.Direction }}dir="{{ . }}"{{ end }}>
+    <a href="{{ .RelPermalink }}" class="block p-4 -mx-4 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800/50 transition-colors">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <!-- Title -->
+          <h2 class="font-medium text-stone-900 dark:text-stone-100 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors mb-1">
+            {{ .Title }}
+          </h2>
+
+          <!-- Description/Summary - Plain text -->
+          <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2">
+            {{- with .Description -}}
+              {{ . | plainify | truncate 120 }}
+            {{- else -}}
+              {{ .Summary | plainify | truncate 120 }}
+            {{- end -}}
+          </p>
+        </div>
+
+        <!-- Date -->
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-sm text-stone-400 dark:text-stone-500 whitespace-nowrap">
+          {{ partial "date.html" .Date }}
+        </time>
+      </div>
+
+      <!-- Tags & Series -->
+      <div class="flex flex-wrap items-center gap-2 mt-2">
+        {{ if .Params.series }}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-sage-500/10 text-sage-600 dark:text-sage-400">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+          {{ .Params.series }}
+        </span>
+        {{ end }}
+        {{ if .Params.tags }}
+        {{ range first 3 .Params.tags }}
+        <span class="tag-pill text-xs">{{ . }}</span>
+        {{ end }}
+        {{ end }}
+      </div>
+    </a>
+  </article>
+  {{ end }}
+</div>
+
+<!-- Pagination -->
+{{- if gt $paginator.TotalPages 1 }}
+<nav class="flex items-center justify-center gap-2 mt-10 pt-6 border-t border-stone-200 dark:border-stone-800">
+  {{- if $paginator.HasPrev }}
+  <a class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" href="{{ $paginator.Prev.URL | absURL }}">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+    </svg>
+    {{ .Site.Params.ui.previous | default "Previous" }}
+  </a>
+  {{- end }}
+
+  <span class="text-stone-400 dark:text-stone-500 text-sm px-3">
+    {{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}
+  </span>
+
+  {{- if $paginator.HasNext }}
+  <a class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" href="{{ $paginator.Next.URL | absURL }}">
+    {{ .Site.Params.ui.next | default "Next" }}
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+    </svg>
+  </a>
+  {{- end }}
+</nav>
+{{- end }}
+
+{{ partial "footer.html" . }}

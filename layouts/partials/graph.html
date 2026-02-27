@@ -1,0 +1,293 @@
+{{- $currentPage := . -}}
+{{- $currentPath := .RelPermalink -}}
+
+{{- /* Generate graph data with tags as nodes */ -}}
+{{- $nodes := slice -}}
+{{- $links := slice -}}
+{{- $titleToPage := dict -}}
+{{- $addedTags := slice -}}
+
+{{- /* Build page lookup */ -}}
+{{- range .Site.RegularPages -}}
+    {{- $titleToPage = merge $titleToPage (dict .Title .) -}}
+{{- end -}}
+
+{{- /* Add page nodes */ -}}
+{{- range .Site.RegularPages -}}
+    {{- $nodes = $nodes | append (dict "id" .RelPermalink "title" .Title "type" "page") -}}
+{{- end -}}
+
+{{- /* Add tag nodes and links */ -}}
+{{- range .Site.RegularPages -}}
+    {{- $source := .RelPermalink -}}
+    {{- $content := .RawContent -}}
+    {{- $currentTags := .Params.tags -}}
+    
+    {{- /* Wiki links */ -}}
+    {{- $pattern := `\[\[([^\]|]+)(?:\|[^\]]+)?\]\]` -}}
+    {{- range $match := findRE $pattern $content -}}
+        {{- $linkTitle := replaceRE $pattern "$1" $match -}}
+        {{- $targetPage := index $titleToPage $linkTitle -}}
+        {{- if $targetPage -}}
+            {{- $links = $links | append (dict "source" $source "target" $targetPage.RelPermalink "type" "direct") -}}
+        {{- end -}}
+    {{- end -}}
+    
+    {{- /* Tag links - connect pages to tag nodes */ -}}
+    {{- if $currentTags -}}
+        {{- range $tag := $currentTags -}}
+            {{- $tagId := printf "tag:%s" $tag -}}
+            {{- if not (in $addedTags $tagId) -}}
+                {{- $nodes = $nodes | append (dict "id" $tagId "title" $tag "type" "tag") -}}
+                {{- $addedTags = $addedTags | append $tagId -}}
+            {{- end -}}
+            {{- $links = $links | append (dict "source" $source "target" $tagId "type" "tag") -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+<div id="graph-overlay" class="graph-overlay"></div>
+<div id="graph-container" class="graph-wrapper" dir="ltr">
+    <div class="graph-header">
+        <span class="graph-title">خريطة الروابط</span>
+        <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 text-xs text-stone-500">
+                <span class="w-2 h-2 rounded-full bg-sage-500"></span>
+                <span>صفحات</span>
+                <span class="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
+                <span>وسوم</span>
+            </div>
+            <button id="graph-expand" class="graph-btn" title="توسيع">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="graph" data-current-page="{{ .RelPermalink }}"></div>
+</div>
+
+<!-- D3.js for force-directed graph -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+(function() {
+    const graphData = {{ dict "nodes" $nodes "links" $links | jsonify | safeJS }};
+    const currentPagePath = "{{ $currentPath }}";
+    
+    const graphContainer = document.getElementById('graph');
+    let isExpanded = false;
+    
+    const config = {
+        nodeRadius: 5,
+        tagNodeRadius: 4,
+        currentNodeRadius: 7,
+        linkDistance: 60,
+        chargeStrength: -150,
+        fontSize: 10,
+        maxLabelLength: 20
+    };
+    
+    initGraph(graphData);
+    
+    function initGraph(data) {
+        const container = document.getElementById('graph');
+        const rect = container.getBoundingClientRect();
+        const width = rect.width || 300;
+        const height = rect.height || 250;
+        
+        let { nodes, links } = filterGraphData(data, currentPagePath);
+        
+        if (nodes.length === 0) {
+            container.innerHTML = '<p class="text-center text-stone-500 text-sm p-4">لا توجد صفحات مرتبطة</p>';
+            return;
+        }
+        
+        const svg = d3.select('#graph')
+            .append('svg')
+            .attr('width', '100%')
+            .attr('height', '100%')
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet');
+        
+        const g = svg.append('g');
+        
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on('zoom', (event) => {
+                g.attr('transform', event.transform);
+            });
+        
+        svg.call(zoom);
+        
+        const simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(links).id(d => d.id).distance(config.linkDistance))
+            .force('charge', d3.forceManyBody().strength(config.chargeStrength))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(20));
+        
+        const link = g.append('g')
+            .attr('class', 'links')
+            .selectAll('line')
+            .data(links)
+            .enter()
+            .append('line')
+            .attr('class', d => `graph-link ${d.type === 'tag' ? 'tag-link' : 'direct-link'}`)
+            .attr('stroke-opacity', d => d.type === 'tag' ? 0.3 : 0.5);
+        
+        const node = g.append('g')
+            .attr('class', 'nodes')
+            .selectAll('g')
+            .data(nodes)
+            .enter()
+            .append('g')
+            .attr('class', 'node')
+            .call(d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended));
+        
+        node.append('circle')
+            .attr('r', d => {
+                if (d.id === currentPagePath) return config.currentNodeRadius;
+                if (d.type === 'tag') return config.tagNodeRadius;
+                return config.nodeRadius;
+            })
+            .attr('class', d => {
+                if (d.id === currentPagePath) return 'graph-node current-node';
+                if (d.type === 'tag') return 'graph-node tag-node';
+                return 'graph-node';
+            });
+        
+        node.append('text')
+            .text(d => truncateLabel(d.title, config.maxLabelLength))
+            .attr('x', 0)
+            .attr('y', -10)
+            .attr('text-anchor', 'middle')
+            .attr('class', d => `graph-label ${d.type === 'tag' ? 'tag-label' : ''}`);
+        
+        node.on('mouseover', function(event, d) {
+            d3.select(this).select('circle').attr('r', config.currentNodeRadius + 2);
+            d3.select(this).select('text').style('opacity', 1).style('font-weight', '600');
+            
+            link.attr('stroke-opacity', l => 
+                (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.1
+            );
+        })
+        .on('mouseout', function(event, d) {
+            const radius = d.id === currentPagePath ? config.currentNodeRadius : 
+                          d.type === 'tag' ? config.tagNodeRadius : config.nodeRadius;
+            d3.select(this).select('circle').attr('r', radius);
+            d3.select(this).select('text').style('font-weight', 'normal');
+            link.attr('stroke-opacity', l => l.type === 'tag' ? 0.3 : 0.5);
+        })
+        .on('click', function(event, d) {
+            if (d.type === 'tag') {
+                window.location.href = '/tags/' + encodeURIComponent(d.title.toLowerCase()) + '/';
+            } else if (d.id !== currentPagePath) {
+                window.location.href = d.id;
+            }
+        });
+        
+        simulation.on('tick', () => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+            
+            node.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+        
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+        
+        document.getElementById('graph-expand').addEventListener('click', function() {
+            const wrapper = document.getElementById('graph-container');
+            const overlay = document.getElementById('graph-overlay');
+            isExpanded = !isExpanded;
+            wrapper.classList.toggle('expanded', isExpanded);
+            overlay.classList.toggle('active', isExpanded);
+            
+            setTimeout(() => {
+                const newRect = container.getBoundingClientRect();
+                svg.attr('viewBox', `0 0 ${newRect.width} ${newRect.height}`);
+                simulation.force('center', d3.forceCenter(newRect.width / 2, newRect.height / 2));
+                simulation.alpha(0.3).restart();
+            }, 300);
+        });
+        
+        // Close on overlay click
+        document.getElementById('graph-overlay').addEventListener('click', function() {
+            const wrapper = document.getElementById('graph-container');
+            const overlay = document.getElementById('graph-overlay');
+            isExpanded = false;
+            wrapper.classList.remove('expanded');
+            overlay.classList.remove('active');
+            
+            setTimeout(() => {
+                const newRect = container.getBoundingClientRect();
+                svg.attr('viewBox', `0 0 ${newRect.width} ${newRect.height}`);
+                simulation.force('center', d3.forceCenter(newRect.width / 2, newRect.height / 2));
+                simulation.alpha(0.3).restart();
+            }, 300);
+        });
+    }
+    
+    function filterGraphData(data, currentPath) {
+        const allNodes = data.nodes || [];
+        const allLinks = data.links || [];
+        
+        const connectedIds = new Set([currentPath]);
+        
+        allLinks.forEach(link => {
+            if (link.source === currentPath || link.target === currentPath) {
+                connectedIds.add(link.source);
+                connectedIds.add(link.target);
+            }
+        });
+        
+        const nodes = connectedIds.size <= 1 
+            ? allNodes 
+            : allNodes.filter(n => connectedIds.has(n.id));
+        
+        const nodeIds = new Set(nodes.map(n => n.id));
+        const filteredLinks = allLinks.filter(l => 
+            nodeIds.has(l.source) && nodeIds.has(l.target)
+        );
+        
+        const uniqueLinks = [];
+        const linkSet = new Set();
+        filteredLinks.forEach(link => {
+            const key = [link.source, link.target].sort().join('->');
+            if (!linkSet.has(key)) {
+                linkSet.add(key);
+                uniqueLinks.push(link);
+            }
+        });
+        
+        return { nodes, links: uniqueLinks };
+    }
+    
+    function truncateLabel(text, maxLength) {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength - 2) + '..' : text;
+    }
+})();
+</script>

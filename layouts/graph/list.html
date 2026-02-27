@@ -1,0 +1,563 @@
+{{ partial "header.html" . }}
+
+<div class="graph-page" id="graph-page">
+    {{/* Header */}}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">{{ .Site.Params.ui.graph_title | default "Knowledge Graph" }}</h1>
+            <p class="text-sm text-stone-500 dark:text-stone-400">{{ .Site.Params.ui.graph_description | default "Explore the connections between articles and topics" }}</p>
+        </div>
+        <button id="fullscreen-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors text-sm font-medium">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+            </svg>
+            <span id="fullscreen-text">{{ .Site.Params.ui.fullscreen | default "Fullscreen" }}</span>
+        </button>
+    </div>
+
+    {{/* Controls */}}
+    <div class="graph-controls mb-4">
+        {{/* Filter Buttons */}}
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+            <span class="text-sm text-stone-500 dark:text-stone-400 mr-2">{{ .Site.Params.ui.show | default "Show" }}:</span>
+            <button class="graph-filter-btn active" data-filter="all">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                {{ .Site.Params.ui.all | default "All" }}
+            </button>
+            <button class="graph-filter-btn" data-filter="pages">
+                <span class="w-2 h-2 rounded-full bg-sage-500"></span>
+                {{ .Site.Params.ui.pages_only | default "Pages Only" }}
+            </button>
+            <button class="graph-filter-btn" data-filter="tags">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                {{ .Site.Params.ui.tags_only | default "Tags Only" }}
+            </button>
+            <button class="graph-filter-btn" data-filter="connected">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                {{ .Site.Params.ui.connected_only | default "Connected Only" }}
+            </button>
+        </div>
+
+        {{/* Search & Stats */}}
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div class="relative flex-1 max-w-xs">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="graph-search" placeholder="{{ .Site.Params.ui.search_placeholder | default "Search pages and tags..." }}" class="w-full pl-10 pr-4 py-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:ring-2 focus:ring-sage-500/50">
+            </div>
+            <div class="flex items-center gap-4 text-xs text-stone-500 dark:text-stone-400">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sage-500"></span>
+                    <span id="pages-count">0</span> {{ .Site.Params.ui.stat_pages | default "Pages" }}
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                    <span id="tags-count">0</span> {{ .Site.Params.ui.stat_tags | default "Tags" }}
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/></svg>
+                    <span id="links-count">0</span> {{ .Site.Params.ui.stat_links | default "Links" }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    {{/* Graph Container */}}
+    <div id="full-graph-container" class="full-graph-wrapper" dir="ltr">
+        <div id="full-graph"></div>
+        
+        {{/* Zoom Controls */}}
+        <div class="graph-zoom-controls">
+            <button id="zoom-in" class="graph-zoom-btn" title="{{ .Site.Params.ui.zoom_in | default "Zoom In" }}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+            </button>
+            <button id="zoom-out" class="graph-zoom-btn" title="{{ .Site.Params.ui.zoom_out | default "Zoom Out" }}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+            </button>
+            <button id="zoom-reset" class="graph-zoom-btn" title="{{ .Site.Params.ui.reset_zoom | default "Reset Zoom" }}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            </button>
+        </div>
+
+        {{/* Node Info Tooltip */}}
+        <div id="node-tooltip" class="graph-tooltip hidden">
+            <div class="tooltip-title"></div>
+            <div class="tooltip-type"></div>
+            <div class="tooltip-connections"></div>
+        </div>
+    </div>
+
+    {{/* Instructions */}}
+    <div class="mt-4 p-4 rounded-lg bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800">
+        <h3 class="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">How to Use</h3>
+        <ul class="text-xs text-stone-500 dark:text-stone-400 space-y-1">
+            <li>• <strong>{{ .Site.Params.ui.graph_instructions_1 | default "Click and drag to move nodes" }}</strong></li>
+            <li>• <strong>{{ .Site.Params.ui.graph_instructions_2 | default "Use mouse wheel to zoom" }}</strong></li>
+            <li>• <strong>{{ .Site.Params.ui.graph_instructions_3 | default "Click on a node to visit the page" }}</strong></li>
+            <li>• <strong>{{ .Site.Params.ui.graph_instructions_4 | default "Use filters to focus on specific types" }}</strong></li>
+        </ul>
+    </div>
+</div>
+
+{{- /* Generate graph data with tags */ -}}
+{{- $nodes := slice -}}
+{{- $links := slice -}}
+{{- $titleToPage := dict -}}
+{{- $addedTags := slice -}}
+
+{{- range .Site.RegularPages -}}
+    {{- $titleToPage = merge $titleToPage (dict .Title .) -}}
+{{- end -}}
+{{- range .Site.RegularPages -}}
+    {{- $section := "page" -}}
+    {{- if .Section -}}
+        {{- $section = .Section -}}
+    {{- end -}}
+    {{- $nodes = $nodes | append (dict "id" .RelPermalink "title" .Title "type" "page" "section" $section) -}}
+{{- end -}}
+{{- range .Site.RegularPages -}}
+    {{- $source := .RelPermalink -}}
+    {{- $content := .RawContent -}}
+    {{- $currentTags := .Params.tags -}}
+    {{- $pattern := `\[\[([^\]|]+)(?:\|[^\]]+)?\]\]` -}}
+    {{- range $match := findRE $pattern $content -}}
+        {{- $linkTitle := replaceRE $pattern "$1" $match -}}
+        {{- $targetPage := index $titleToPage $linkTitle -}}
+        {{- if $targetPage -}}
+            {{- $links = $links | append (dict "source" $source "target" $targetPage.RelPermalink "type" "direct") -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if $currentTags -}}
+        {{- range $tag := $currentTags -}}
+            {{- $tagId := printf "tag:%s" $tag -}}
+            {{- if not (in $addedTags $tagId) -}}
+                {{- $nodes = $nodes | append (dict "id" $tagId "title" $tag "type" "tag" "section" "tag") -}}
+                {{- $addedTags = $addedTags | append $tagId -}}
+            {{- end -}}
+            {{- $links = $links | append (dict "source" $source "target" $tagId "type" "tag") -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+<!-- D3.js for force-directed graph -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+(function() {
+    const graphData = {{ dict "nodes" $nodes "links" $links | jsonify | safeJS }};
+
+    // UI strings
+    const uiStrings = {
+        tag: '{{ .Site.Params.ui.stat_tag | default "Tag" }}',
+        page: '{{ .Site.Params.ui.stat_page | default "Page" }}',
+        links: '{{ .Site.Params.ui.stat_links | default "Links" }}',
+        link: '{{ .Site.Params.ui.stat_link | default "Link" }}',
+        exitFullscreen: '{{ .Site.Params.ui.exit_fullscreen | default "Exit Fullscreen" }}',
+        fullscreen: '{{ .Site.Params.ui.fullscreen | default "Fullscreen" }}'
+    };
+
+    let currentFilter = 'all';
+    let searchTerm = '';
+    let svg, g, simulation, link, node, zoom;
+    let allNodes, allLinks;
+    let isFullscreen = false;
+    
+    const config = {
+        nodeRadius: 8,
+        tagNodeRadius: 6,
+        highlightRadius: 12,
+        linkDistance: 120,
+        chargeStrength: -400,
+        fontSize: 12,
+        maxLabelLength: 30
+    };
+    
+    initGraph(graphData);
+    setupControls();
+    
+    function initGraph(data) {
+        const container = document.getElementById('full-graph');
+        const rect = container.getBoundingClientRect();
+        const width = rect.width || 800;
+        const height = rect.height || 600;
+        
+        const processed = processGraphData(data);
+        allNodes = processed.nodes;
+        allLinks = processed.links;
+        
+        // Update stats
+        updateStats();
+        
+        if (allNodes.length === 0) {
+            container.innerHTML = '<p class="text-center text-stone-500 p-8 text-lg">{{ .Site.Params.ui.no_pages_yet | default "No pages yet. Start creating content to see your knowledge graph grow!" }}</p>';
+            return;
+        }
+        
+        svg = d3.select('#full-graph')
+            .append('svg')
+            .attr('width', '100%')
+            .attr('height', '100%')
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet');
+        
+        // Add gradient definitions for links
+        const defs = svg.append('defs');
+        
+        // Gradient for direct links
+        const directGradient = defs.append('linearGradient')
+            .attr('id', 'link-gradient-direct')
+            .attr('gradientUnits', 'userSpaceOnUse');
+        directGradient.append('stop').attr('offset', '0%').attr('stop-color', 'var(--sage-400)');
+        directGradient.append('stop').attr('offset', '100%').attr('stop-color', 'var(--sage-500)');
+        
+        // Gradient for tag links
+        const tagGradient = defs.append('linearGradient')
+            .attr('id', 'link-gradient-tag')
+            .attr('gradientUnits', 'userSpaceOnUse');
+        tagGradient.append('stop').attr('offset', '0%').attr('stop-color', 'hsl(38 60% 55%)');
+        tagGradient.append('stop').attr('offset', '100%').attr('stop-color', 'hsl(32 80% 50%)');
+        
+        g = svg.append('g');
+        
+        zoom = d3.zoom()
+            .scaleExtent([0.1, 4])
+            .on('zoom', (event) => {
+                g.attr('transform', event.transform);
+            });
+        
+        svg.call(zoom);
+        
+        // Initial render
+        renderGraph(allNodes, allLinks, width, height);
+    }
+    
+    function renderGraph(nodes, links, width, height) {
+        // Clear existing
+        g.selectAll('*').remove();
+        
+        if (nodes.length === 0) return;
+        
+        // Create simulation
+        simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(links).id(d => d.id).distance(config.linkDistance))
+            .force('charge', d3.forceManyBody().strength(config.chargeStrength))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(35))
+            .force('x', d3.forceX(width / 2).strength(0.05))
+            .force('y', d3.forceY(height / 2).strength(0.05));
+        
+        // Draw links
+        link = g.append('g')
+            .attr('class', 'links')
+            .selectAll('line')
+            .data(links)
+            .enter()
+            .append('line')
+            .attr('class', d => `graph-link ${d.type === 'tag' ? 'tag-link' : 'direct-link'}`)
+            .attr('stroke-opacity', d => d.type === 'tag' ? 0.25 : 0.5)
+            .attr('stroke-width', d => d.type === 'tag' ? 1 : 1.5);
+        
+        // Draw nodes
+        node = g.append('g')
+            .attr('class', 'nodes')
+            .selectAll('g')
+            .data(nodes)
+            .enter()
+            .append('g')
+            .attr('class', d => `node node-${d.type}`)
+            .style('cursor', 'pointer')
+            .call(d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended));
+        
+        // Node circles with glow effect
+        node.append('circle')
+            .attr('r', d => d.type === 'tag' ? config.tagNodeRadius : config.nodeRadius)
+            .attr('class', d => d.type === 'tag' ? 'graph-node tag-node' : 'graph-node')
+            .attr('filter', 'url(#glow)');
+        
+        // Node labels
+        node.append('text')
+            .text(d => truncateLabel(d.title, config.maxLabelLength))
+            .attr('x', 0)
+            .attr('y', d => d.type === 'tag' ? -12 : -14)
+            .attr('text-anchor', 'middle')
+            .attr('class', d => `graph-label ${d.type === 'tag' ? 'tag-label' : ''}`);
+        
+        // Interaction handlers
+        node.on('mouseover', handleMouseOver)
+            .on('mouseout', handleMouseOut)
+            .on('click', handleClick);
+        
+        // Simulation tick
+        simulation.on('tick', () => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+            
+            node.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+    }
+    
+    function handleMouseOver(event, d) {
+        const tooltip = document.getElementById('node-tooltip');
+        const connections = allLinks.filter(l => 
+            l.source.id === d.id || l.target.id === d.id || 
+            l.source === d.id || l.target === d.id
+        ).length;
+        
+        // Show tooltip
+        tooltip.querySelector('.tooltip-title').textContent = d.title;
+        tooltip.querySelector('.tooltip-type').textContent = d.type === 'tag' ? uiStrings.tag : uiStrings.page;
+        tooltip.querySelector('.tooltip-connections').textContent = `${connections} ${connections === 1 ? uiStrings.link : uiStrings.links}`;
+        tooltip.classList.remove('hidden');
+        
+        // Position tooltip
+        const containerRect = document.getElementById('full-graph-container').getBoundingClientRect();
+        tooltip.style.left = `${event.clientX - containerRect.left + 15}px`;
+        tooltip.style.top = `${event.clientY - containerRect.top - 10}px`;
+        
+        // Highlight node
+        d3.select(this).select('circle')
+            .transition()
+            .duration(200)
+            .attr('r', config.highlightRadius);
+        
+        d3.select(this).select('text')
+            .transition()
+            .duration(200)
+            .style('font-weight', '700')
+            .style('font-size', '14px');
+        
+        // Highlight connected links
+        link.transition()
+            .duration(200)
+            .attr('stroke-opacity', l => {
+                const isConnected = l.source.id === d.id || l.target.id === d.id;
+                return isConnected ? 1 : 0.05;
+            })
+            .attr('stroke-width', l => {
+                const isConnected = l.source.id === d.id || l.target.id === d.id;
+                return isConnected ? 3 : 1;
+            });
+        
+        // Fade unconnected nodes
+        node.transition()
+            .duration(200)
+            .style('opacity', n => {
+                if (n.id === d.id) return 1;
+                const isConnected = allLinks.some(l => 
+                    (l.source.id === d.id && l.target.id === n.id) ||
+                    (l.target.id === d.id && l.source.id === n.id)
+                );
+                return isConnected ? 1 : 0.15;
+            });
+    }
+    
+    function handleMouseOut(event, d) {
+        const tooltip = document.getElementById('node-tooltip');
+        tooltip.classList.add('hidden');
+        
+        const radius = d.type === 'tag' ? config.tagNodeRadius : config.nodeRadius;
+        d3.select(this).select('circle')
+            .transition()
+            .duration(200)
+            .attr('r', radius);
+        
+        d3.select(this).select('text')
+            .transition()
+            .duration(200)
+            .style('font-weight', '500')
+            .style('font-size', config.fontSize + 'px');
+        
+        link.transition()
+            .duration(200)
+            .attr('stroke-opacity', l => l.type === 'tag' ? 0.25 : 0.5)
+            .attr('stroke-width', l => l.type === 'tag' ? 1 : 1.5);
+        
+        node.transition()
+            .duration(200)
+            .style('opacity', 1);
+    }
+    
+    function handleClick(event, d) {
+        if (d.type === 'tag') {
+            window.location.href = '/tags/' + encodeURIComponent(d.title.toLowerCase()) + '/';
+        } else {
+            window.location.href = d.id;
+        }
+    }
+    
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+    
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+    
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+    
+    function setupControls() {
+        // Filter buttons
+        document.querySelectorAll('.graph-filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.graph-filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+        
+        // Search input
+        const searchInput = document.getElementById('graph-search');
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            applyFilters();
+        });
+        
+        // Zoom controls
+        document.getElementById('zoom-in').addEventListener('click', () => {
+            svg.transition().duration(300).call(zoom.scaleBy, 1.5);
+        });
+        
+        document.getElementById('zoom-out').addEventListener('click', () => {
+            svg.transition().duration(300).call(zoom.scaleBy, 0.67);
+        });
+        
+        document.getElementById('zoom-reset').addEventListener('click', () => {
+            svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+        });
+        
+        // Fullscreen
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+        
+        // Escape key to exit fullscreen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isFullscreen) {
+                toggleFullscreen();
+            }
+        });
+    }
+    
+    function applyFilters() {
+        let filteredNodes = [...allNodes];
+        let filteredLinks = [...allLinks];
+        
+        // Apply type filter
+        if (currentFilter === 'pages') {
+            filteredNodes = allNodes.filter(n => n.type === 'page');
+        } else if (currentFilter === 'tags') {
+            filteredNodes = allNodes.filter(n => n.type === 'tag');
+        } else if (currentFilter === 'connected') {
+            // Find nodes with connections
+            const connectedIds = new Set();
+            allLinks.forEach(l => {
+                connectedIds.add(typeof l.source === 'object' ? l.source.id : l.source);
+                connectedIds.add(typeof l.target === 'object' ? l.target.id : l.target);
+            });
+            filteredNodes = allNodes.filter(n => connectedIds.has(n.id));
+        }
+        
+        // Apply search filter
+        if (searchTerm) {
+            filteredNodes = filteredNodes.filter(n => 
+                n.title.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        // Filter links to only include those between visible nodes
+        const nodeIds = new Set(filteredNodes.map(n => n.id));
+        filteredLinks = allLinks.filter(l => {
+            const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
+            const targetId = typeof l.target === 'object' ? l.target.id : l.target;
+            return nodeIds.has(sourceId) && nodeIds.has(targetId);
+        });
+        
+        // Re-render with fresh node/link copies to reset positions
+        const freshNodes = filteredNodes.map(n => ({...n, x: undefined, y: undefined}));
+        const freshLinks = filteredLinks.map(l => ({
+            source: typeof l.source === 'object' ? l.source.id : l.source,
+            target: typeof l.target === 'object' ? l.target.id : l.target,
+            type: l.type
+        }));
+        
+        const container = document.getElementById('full-graph');
+        const rect = container.getBoundingClientRect();
+        
+        renderGraph(freshNodes, freshLinks, rect.width, rect.height);
+        updateStats(filteredNodes, filteredLinks);
+    }
+    
+    function updateStats(nodes = allNodes, links = allLinks) {
+        const pageCount = nodes.filter(n => n.type === 'page').length;
+        const tagCount = nodes.filter(n => n.type === 'tag').length;
+        document.getElementById('pages-count').textContent = pageCount;
+        document.getElementById('tags-count').textContent = tagCount;
+        document.getElementById('links-count').textContent = links.length;
+    }
+    
+    function toggleFullscreen() {
+        const graphPage = document.getElementById('graph-page');
+        const container = document.getElementById('full-graph-container');
+        const btn = document.getElementById('fullscreen-btn');
+        const btnText = document.getElementById('fullscreen-text');
+        
+        isFullscreen = !isFullscreen;
+        
+        if (isFullscreen) {
+            graphPage.classList.add('graph-fullscreen');
+            container.classList.add('fullscreen');
+            btnText.textContent = uiStrings.exitFullscreen;
+            btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+        } else {
+            graphPage.classList.remove('graph-fullscreen');
+            container.classList.remove('fullscreen');
+            btnText.textContent = uiStrings.fullscreen;
+            btn.querySelector('svg').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>';
+        }
+        
+        // Resize graph
+        setTimeout(() => {
+            const rect = container.querySelector('#full-graph').getBoundingClientRect();
+            svg.attr('viewBox', `0 0 ${rect.width} ${rect.height}`);
+            simulation.force('center', d3.forceCenter(rect.width / 2, rect.height / 2));
+            simulation.alpha(0.5).restart();
+        }, 300);
+    }
+    
+    function processGraphData(data) {
+        const nodes = data.nodes || [];
+        const rawLinks = data.links || [];
+        
+        const uniqueLinks = [];
+        const linkSet = new Set();
+        rawLinks.forEach(link => {
+            const key = [link.source, link.target].sort().join('->');
+            if (!linkSet.has(key)) {
+                linkSet.add(key);
+                uniqueLinks.push(link);
+            }
+        });
+        
+        return { nodes, links: uniqueLinks };
+    }
+    
+    function truncateLabel(text, maxLength) {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength - 2) + '..' : text;
+    }
+})();
+</script>
+
+{{ partial "footer.html" . }}

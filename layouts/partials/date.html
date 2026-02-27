@@ -1,0 +1,39 @@
+<script>
+    (function () {
+        // English month names
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        // Get current date or date from data attribute
+        const dateElement = document.currentScript.parentElement;
+        let date;
+
+        if (dateElement.dataset.date) {
+            date = new Date(dateElement.dataset.date);
+        } else {
+            date = new Date();
+        }
+
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        // Format: Month Day, Year (e.g., January 15, 2024)
+        const formattedDate = `${month} ${day}, ${year}`;
+
+        // Write the date to the document
+        document.write(formattedDate);
+    })();
+</script>

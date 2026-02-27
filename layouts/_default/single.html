@@ -1,0 +1,156 @@
+{{ partial "header.html" . }}
+
+<article class="max-w-none">
+  <!-- Article Header -->
+  <header class="mb-8">
+    {{ if .Params.Cover }}
+    <img src="{{ .Params.Cover }}" class="w-full h-48 md:h-64 object-cover rounded-lg mb-6" alt="{{ .Title }}">
+    {{ end }}
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-1.5 text-sm text-stone-400 dark:text-stone-500 mb-4">
+      <a href="/" class="hover:text-stone-600 dark:hover:text-stone-300 transition-colors">{{ .Site.Params.ui.breadcrumb_home | default "Home" }}</a>
+      <span>/</span>
+      <a href="/posts/" class="hover:text-stone-600 dark:hover:text-stone-300 transition-colors">{{ .Site.Params.ui.breadcrumb_posts | default "Posts" }}</a>
+      {{ if .Params.series }}
+      <span>/</span>
+      <a href="/series/{{ .Params.series | urlize }}/" class="hover:text-stone-600 dark:hover:text-stone-300 transition-colors">{{ .Params.series }}</a>
+      {{ end }}
+    </nav>
+
+    <!-- Title -->
+    <h1 class="text-2xl md:text-3xl font-semibold text-stone-900 dark:text-stone-100 mb-4 leading-tight" dir="{{ .Params.Direction }}">
+      {{ .Title }}
+    </h1>
+
+    <!-- Meta Info -->
+    <div class="flex flex-wrap items-center gap-3 text-sm text-stone-500 dark:text-stone-400 mb-4">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">
+        {{ partial "date.html" .Date }}
+      </time>
+
+      {{/* Auto-calculate reading time: ~200 words per minute */}}
+      {{ $wordCount := .WordCount }}
+      {{ $readingTime := div $wordCount 200 }}
+      {{ if lt $readingTime 1 }}{{ $readingTime = 1 }}{{ end }}
+      <span class="text-stone-300 dark:text-stone-600">•</span>
+      <span>{{ $readingTime }} {{ if eq $readingTime 1 }}{{ .Site.Params.ui.reading_time_singular | default "minute read" }}{{ else }}{{ .Site.Params.ui.reading_time_plural | default "minutes read" }}{{ end }}</span>
+    </div>
+
+    <!-- Tags -->
+    {{ if .Params.tags }}
+    <div class="flex flex-wrap gap-1.5">
+      {{ range .Params.tags }}
+      <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="tag-pill-link">
+        {{ . }}
+      </a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </header>
+
+  <!-- Series Navigation -->
+  {{ partial "series-nav.html" . }}
+
+  <!-- Table of Contents -->
+  {{ if .Params.toc | default true }}
+  {{ partial "toc.html" . }}
+  {{ end }}
+
+  <!-- Article Content -->
+  <div {{ with .Params.Direction }}dir="{{ . }}"{{ end }} class="prose prose-stone dark:prose-invert max-w-none
+    prose-headings:font-semibold
+    prose-a:text-sage-600 dark:prose-a:text-sage-400 prose-a:no-underline hover:prose-a:underline
+    prose-code:text-sage-700 dark:prose-code:text-sage-400 prose-code:bg-stone-100 dark:prose-code:bg-stone-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
+    prose-pre:bg-stone-900 dark:prose-pre:bg-stone-950 prose-pre:rounded-lg
+    prose-blockquote:border-l-2 prose-blockquote:border-sage-400 prose-blockquote:bg-stone-50 dark:prose-blockquote:bg-stone-900 prose-blockquote:not-italic
+    prose-img:rounded-lg
+    mb-10">
+
+    {{ partial "wikilinks.html" . }}
+  </div>
+
+  <!-- Backlinks Section -->
+  {{ partial "backlinks.html" . }}
+
+  <!-- Article Footer -->
+  <footer class="border-t border-stone-200 dark:border-stone-800 pt-6 mt-8">
+    <!-- Share Section -->
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-stone-500 dark:text-stone-400">{{ .Site.Params.ui.share_article | default "Share Article" }}</span>
+      <div class="flex items-center gap-1">
+        <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}"
+           target="_blank" rel="noopener"
+           class="share-btn">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}"
+           target="_blank" rel="noopener"
+           class="share-btn">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <button onclick="navigator.clipboard.writeText('{{ .Permalink }}')" class="share-btn" title="Copy link">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+</article>
+
+<!-- Graph Section -->
+<div class="mt-10">
+  {{ partial "graph.html" . }}
+</div>
+
+<!-- Related Posts -->
+{{ $related := .Site.RegularPages.Related . | first 3 }}
+{{ with $related }}
+<section class="mt-10">
+  <h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
+    <svg class="w-5 h-5 text-sage-600 dark:text-sage-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+    </svg>
+    {{ .Site.Params.ui.related_posts | default "Related Posts" }}
+  </h2>
+  <div class="grid gap-3">
+    {{ range . }}
+    <a href="{{ .RelPermalink }}" class="related-post-card group">
+      <div class="flex-1 min-w-0">
+        <h3 class="font-medium text-stone-800 dark:text-stone-200 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors line-clamp-1 mb-1">
+          {{ .Title }}
+        </h3>
+        <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2">
+          {{ .Summary | plainify | truncate 100 }}
+        </p>
+      </div>
+      <svg class="w-4 h-4 text-stone-300 dark:text-stone-600 group-hover:text-sage-500 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- Navigation between posts -->
+<nav class="mt-10 grid md:grid-cols-2 gap-3">
+  {{ with .PrevInSection }}
+  <a href="{{ .RelPermalink }}" class="nav-post-card group">
+    <span class="text-xs text-stone-400 dark:text-stone-500 mb-1">← {{ $.Site.Params.ui.previous | default "Previous" }}</span>
+    <span class="font-medium text-stone-700 dark:text-stone-300 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors line-clamp-1">{{ .Title }}</span>
+  </a>
+  {{ else }}
+  <div></div>
+  {{ end }}
+
+  {{ with .NextInSection }}
+  <a href="{{ .RelPermalink }}" class="nav-post-card group text-right">
+    <span class="text-xs text-stone-400 dark:text-stone-500 mb-1 text-right">{{ $.Site.Params.ui.next | default "Next" }} →</span>
+    <span class="font-medium text-stone-700 dark:text-stone-300 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors line-clamp-1">{{ .Title }}</span>
+  </a>
+  {{ end }}
+</nav>
+
+{{ partial "footer.html" . }}

@@ -1,0 +1,32 @@
+{{- $content := .Inner -}}
+{{- $site := .Page.Site -}}
+
+{{- /* Process wiki-style links [[Page Title]] or [[Page Title|Display Text]] */ -}}
+{{- $pattern := `\[\[([^\]|]+)(?:\|([^\]]+))?\]\]` -}}
+
+{{- range $match := findRE $pattern $content -}}
+    {{- $linkTitle := replaceRE $pattern "$1" $match -}}
+    {{- $displayText := replaceRE $pattern "$2" $match -}}
+    {{- if eq $displayText "" -}}
+        {{- $displayText = $linkTitle -}}
+    {{- end -}}
+    
+    {{- /* Search for page by title */ -}}
+    {{- $targetPage := false -}}
+    {{- range $site.RegularPages -}}
+        {{- if eq .Title $linkTitle -}}
+            {{- $targetPage = . -}}
+        {{- end -}}
+    {{- end -}}
+    
+    {{- if $targetPage -}}
+        {{- $link := printf `<a href="%s" class="wikilink">%s</a>` $targetPage.RelPermalink $displayText -}}
+        {{- $content = replace $content $match $link -}}
+    {{- else -}}
+        {{- /* Mark as broken link */ -}}
+        {{- $brokenLink := printf `<span class="wikilink broken" title="صفحة غير موجودة">%s</span>` $displayText -}}
+        {{- $content = replace $content $match $brokenLink -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $content | safeHTML -}}

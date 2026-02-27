@@ -1,0 +1,58 @@
+{{/*
+  Roadmap Shortcode
+  Usage:
+  {{< roadmap >}}
+  - [x] تعلم أساسيات HTML | 2024-01-01 | مكتمل
+  - [-] تعلم CSS المتقدم | 2024-02-15 | قيد التنفيذ
+  - [ ] تعلم JavaScript | 2024-03-01 | قريباً
+  {{< /roadmap >}}
+  
+  Format: - [status] title | date | description
+  Status: [x] = completed, [-] = in-progress, [ ] = pending
+*/}}
+
+<div class="roadmap" dir="ltr">
+  {{ $lines := split .Inner "\n" }}
+  {{ range $lines }}
+    {{ $line := trim . " \t\r\n" }}
+    {{ if and (hasPrefix $line "- [") (gt (len $line) 5) }}
+      {{/* Parse status */}}
+      {{ $status := "pending" }}
+      {{ if hasPrefix $line "- [x]" }}
+        {{ $status = "completed" }}
+      {{ else if hasPrefix $line "- [-]" }}
+        {{ $status = "in-progress" }}
+      {{ end }}
+      
+      {{/* Remove prefix and parse parts */}}
+      {{ $content := substr $line 5 }}
+      {{ $parts := split $content "|" }}
+      
+      {{ $title := "" }}
+      {{ $date := "" }}
+      {{ $description := "" }}
+      
+      {{ if ge (len $parts) 1 }}
+        {{ $title = trim (index $parts 0) " " }}
+      {{ end }}
+      {{ if ge (len $parts) 2 }}
+        {{ $date = trim (index $parts 1) " " }}
+      {{ end }}
+      {{ if ge (len $parts) 3 }}
+        {{ $description = trim (index $parts 2) " " }}
+      {{ end }}
+      
+      <div class="roadmap-item {{ $status }}">
+        <div class="roadmap-content">
+          {{ if $date }}
+          <div class="roadmap-date">{{ $date }}</div>
+          {{ end }}
+          <div class="roadmap-title">{{ $title }}</div>
+          {{ if $description }}
+          <div class="roadmap-description">{{ $description }}</div>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  {{ end }}
+</div>

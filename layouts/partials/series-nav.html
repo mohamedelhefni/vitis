@@ -1,0 +1,100 @@
+{{- if .Params.series -}}
+{{- $currentPage := . -}}
+{{- $seriesName := .Params.series -}}
+{{- $seriesPages := where .Site.RegularPages "Params.series" $seriesName -}}
+{{- $seriesPages = sort $seriesPages "Params.seriesOrder" -}}
+{{- $totalParts := len $seriesPages -}}
+{{- $currentOrder := .Params.seriesOrder | default 1 -}}
+
+{{- /* Find current index */ -}}
+{{- $currentIndex := 0 -}}
+{{- range $index, $page := $seriesPages -}}
+    {{- if eq $page.RelPermalink $currentPage.RelPermalink -}}
+        {{- $currentIndex = $index -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $prevPage := false -}}
+{{- $nextPage := false -}}
+{{- if gt $currentIndex 0 -}}
+    {{- $prevPage = index $seriesPages (sub $currentIndex 1) -}}
+{{- end -}}
+{{- if lt (add $currentIndex 1) $totalParts -}}
+    {{- $nextPage = index $seriesPages (add $currentIndex 1) -}}
+{{- end -}}
+
+<div class="series-nav-box mb-8">
+    <div class="series-nav-header">
+        <a href="/series/{{ $seriesName | urlize }}/" class="flex items-center gap-2 hover:text-sage-600 dark:hover:text-sage-400 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+            <span class="font-semibold">{{ $seriesName }}</span>
+        </a>
+        <span class="text-sm text-stone-500 dark:text-stone-400">
+            {{ .Site.Params.ui.stat_part | default "Part" }} {{ add $currentIndex 1 }} of {{ $totalParts }}
+        </span>
+    </div>
+    
+    <!-- Progress bar -->
+    <div class="series-nav-progress">
+        <div class="series-nav-progress-bar" style="width: {{ mul (div (add $currentIndex 1.0) (mul $totalParts 1.0)) 100 }}%"></div>
+    </div>
+    
+    <!-- Collapsible parts list -->
+    <details class="series-nav-details">
+        <summary class="series-nav-summary">
+            <span>View All Parts</span>
+            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </summary>
+        <ul class="series-nav-list">
+            {{- range $index, $page := $seriesPages -}}
+            {{- $partNum := add $index 1 -}}
+            {{- $isCurrent := eq $page.RelPermalink $currentPage.RelPermalink -}}
+            <li>
+                <a href="{{ $page.RelPermalink }}" 
+                   class="series-nav-item {{ if $isCurrent }}current{{ end }}">
+                    <span class="series-nav-item-num {{ if $isCurrent }}current{{ end }}">{{ $partNum }}</span>
+                    <span class="series-nav-item-title">{{ $page.Title }}</span>
+                    {{- if $isCurrent -}}
+                    <span class="series-nav-current-badge">Current</span>
+                    {{- end -}}
+                </a>
+            </li>
+            {{- end -}}
+        </ul>
+    </details>
+    
+    <!-- Prev/Next navigation -->
+    <div class="series-nav-footer">
+        {{- if $prevPage -}}
+        <a href="{{ $prevPage.RelPermalink }}" class="series-nav-btn">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>{{ $.Site.Params.ui.previous | default "Previous" }}</span>
+        </a>
+        {{- else -}}
+        <div></div>
+        {{- end -}}
+
+        {{- if $nextPage -}}
+        <a href="{{ $nextPage.RelPermalink }}" class="series-nav-btn primary">
+            <span>{{ $.Site.Params.ui.next | default "Next" }}</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+            </svg>
+        </a>
+        {{- else -}}
+        <span class="series-complete-badge">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>{{ $.Site.Params.ui.series_completed | default "Series Completed" }}</span>
+        </span>
+        {{- end -}}
+    </div>
+</div>
+{{- end -}}

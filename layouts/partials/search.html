@@ -1,0 +1,160 @@
+<!-- Search Modal -->
+<div id="search-modal" class="search-modal hidden" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <div class="search-overlay" onclick="closeSearch()"></div>
+    <div class="search-container">
+        <div class="search-header">
+            <div class="search-input-wrapper">
+                {{ partial "icons/search.html" . }}
+                <input type="text"
+                       id="search-input"
+                       class="search-input"
+                       placeholder="{{ .Site.Params.ui.search_placeholder | default "Search pages and tags..." }}"
+                       autocomplete="off"
+                       autofocus>
+                <kbd class="search-kbd">ESC</kbd>
+            </div>
+        </div>
+        <div id="search-results" class="search-results">
+            <div class="search-empty">
+                <p class="text-stone-500 dark:text-stone-400">Type to search...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+<script>
+(function() {
+    let searchIndex = null;
+    let fuse = null;
+    const searchModal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    
+    // Load search index
+    async function loadSearchIndex() {
+        if (searchIndex) return;
+        try {
+            const response = await fetch('/index.json');
+            searchIndex = await response.json();
+            fuse = new Fuse(searchIndex.nodes || searchIndex, {
+                keys: ['title', 'content', 'tags'],
+                threshold: 0.3,
+                includeScore: true,
+                includeMatches: true,
+                minMatchCharLength: 2
+            });
+        } catch (error) {
+            console.error('Failed to load search index:', error);
+        }
+    }
+    
+    // Open search modal
+    window.openSearch = function() {
+        searchModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        loadSearchIndex();
+        setTimeout(() => searchInput.focus(), 100);
+    }
+    
+    // Close search modal
+    window.closeSearch = function() {
+        searchModal.classList.add('hidden');
+        document.body.style.overflow = '';
+        searchInput.value = '';
+        renderResults([]);
+    }
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Open with Cmd/Ctrl + K
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            openSearch();
+        }
+        // Close with Escape
+        if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
+            closeSearch();
+        }
+    });
+    
+    // Search on input
+    searchInput.addEventListener('input', function(e) {
+        const query = e.target.value.trim();
+        
+        if (!query) {
+            renderResults([]);
+            return;
+        }
+        
+        if (!fuse) {
+            searchResults.innerHTML = '<div class="search-empty"><p class="text-stone-500">Loading...</p></div>';
+            return;
+        }
+        
+        const results = fuse.search(query, { limit: 10 });
+        renderResults(results);
+    });
+    
+    // Render search results
+    function renderResults(results) {
+        if (!results || results.length === 0) {
+            const query = searchInput.value.trim();
+            if (query) {
+                searchResults.innerHTML = `
+                    <div class="search-empty">
+                        <p class="text-stone-500 dark:text-stone-400">No results for "${query}"</p>
+                    </div>
+                `;
+            } else {
+                searchResults.innerHTML = `
+                    <div class="search-empty">
+                        <p class="text-stone-500 dark:text-stone-400">Type to search...</p>
+                    </div>
+                `;
+            }
+            return;
+        }
+
+        const html = results.map(result => {
+            const item = result.item;
+            const title = item.title || 'Untitled';
+            const url = item.id || item.url || '#';
+            const tags = item.tags || [];
+            
+            return `
+                <a href="${url}" class="search-result-item" onclick="closeSearch()">
+                    <div class="search-result-title">${highlightMatch(title, result.matches)}</div>
+                    ${tags.length > 0 ? `
+                        <div class="search-result-tags">
+                            ${tags.slice(0, 3).map(tag => `<span class="search-tag">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </a>
+            `;
+        }).join('');
+        
+        searchResults.innerHTML = html;
+    }
+    
+    // Highlight matching text
+    function highlightMatch(text, matches) {
+        if (!matches) return text;
+        const titleMatch = matches.find(m => m.key === 'title');
+        if (!titleMatch) return text;
+        
+        let result = text;
+        const indices = titleMatch.indices.sort((a, b) => b[0] - a[0]);
+        
+        for (const [start, end] of indices) {
+            result = result.slice(0, start) + 
+                     '<mark class="search-highlight">' + 
+                     result.slice(start, end + 1) + 
+                     '</mark>' + 
+                     result.slice(end + 1);
+        }
+        
+        return result;
+    }
+})();
+</script>

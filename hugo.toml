@@ -1,0 +1,96 @@
+# Vitis Theme Configuration
+# This file specifies Hugo version requirements for the theme
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.112.0"
+
+# Default outputs for the theme
+[outputs]
+  home = ["HTML", "RSS", "JSON", "ROBOTS"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  term = ["HTML", "RSS"]
+
+# Media types
+[mediaTypes]
+  [mediaTypes."text/plain"]
+    suffixes = ["txt"]
+
+# Output formats
+[outputFormats]
+  [outputFormats.ROBOTS]
+    mediaType = "text/plain"
+    baseName = "robots"
+    isPlainText = true
+    notAlternative = true
+
+# Sitemap configuration
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+# Markup configuration for better content
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      footnote = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    noClasses = false
+    style = "dracula"
+  [markup.tableOfContents]
+    endLevel = 4
+    ordered = false
+    startLevel = 2
+
+# Minify output
+[minify]
+  disableCSS = false
+  disableHTML = false
+  disableJS = false
+  disableJSON = false
+  disableSVG = false
+  disableXML = false
+  minifyOutput = true
+  [minify.tdewolff]
+    [minify.tdewolff.html]
+      keepWhitespace = false
+
+# Related content configuration
+[related]
+  includeNewer = true
+  threshold = 80
+  toLower = true
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "series"
+    weight = 80
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
+# Privacy settings (GDPR compliant)
+[privacy]
+  [privacy.disqus]
+    disable = false
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    respectDoNotTrack = true
+  [privacy.x]
+    enableDNT = true
+  [privacy.youtube]
+    privacyEnhanced = true

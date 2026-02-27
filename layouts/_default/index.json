@@ -1,0 +1,15 @@
+{{- $pages := slice -}}
+
+{{- /* Collect all pages with searchable data */ -}}
+{{- range .Site.RegularPages -}}
+    {{- $content := .Plain | truncate 300 -}}
+    {{- $pages = $pages | append (dict 
+        "id" .RelPermalink 
+        "title" .Title 
+        "content" $content
+        "tags" .Params.tags
+        "date" (.Date.Format "2006-01-02")
+    ) -}}
+{{- end -}}
+
+{{- dict "nodes" $pages | jsonify -}}

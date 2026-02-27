@@ -1,0 +1,318 @@
+{{ partial "header.html" . }}
+
+<!-- Hero Section -->
+<section class="py-12 md:py-16">
+  <div class="space-y-4">
+    <!-- Greeting -->
+    <p class="text-stone-500 dark:text-stone-400">
+      <span class="animate-wave inline-block mr-1">👋</span>
+      {{ .Site.Params.ui.greeting | default "Welcome" }}
+    </p>
+
+    <!-- Title -->
+    <h1 class="text-3xl md:text-4xl font-semibold text-stone-900 dark:text-stone-100 leading-tight">
+      {{ .Title }}
+    </h1>
+
+    <!-- Description -->
+    <p class="text-stone-600 dark:text-stone-400 leading-relaxed max-w-xl">
+      {{ .Description }}
+    </p>
+
+    <!-- Social Links -->
+    <div class="pt-2">
+      {{ partial "social.html" . }}
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
+  {{ $posts := where .Site.RegularPages "Section" "posts" }}
+  {{ $tags := .Site.Taxonomies.tags }}
+  {{ $series := .Site.Taxonomies.series }}
+  {{ $seriesCount := 0 }}
+  {{ $tagsCount := 0 }}
+  {{ if $series }}{{ $seriesCount = len $series }}{{ end }}
+  {{ if $tags }}{{ $tagsCount = len $tags }}{{ end }}
+
+  <div class="stat-card">
+    <div class="stat-icon">📝</div>
+    <div class="stat-number">{{ len $posts }}</div>
+    <div class="stat-label">{{ if eq (len $posts) 1 }}{{ .Site.Params.ui.stat_article | default "Article" }}{{ else }}{{ .Site.Params.ui.stat_articles | default "Articles" }}{{ end }}</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">📚</div>
+    <div class="stat-number">{{ $seriesCount }}</div>
+    <div class="stat-label">{{ .Site.Params.ui.stat_series | default "Series" }}</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">🏷️</div>
+    <div class="stat-number">{{ $tagsCount }}</div>
+    <div class="stat-label">{{ if eq $tagsCount 1 }}{{ .Site.Params.ui.stat_tag | default "Tag" }}{{ else }}{{ .Site.Params.ui.stat_tags | default "Tags" }}{{ end }}</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">🔗</div>
+    <div class="stat-number">{{ len .Site.RegularPages }}</div>
+    <div class="stat-label">{{ if eq (len .Site.RegularPages) 1 }}{{ .Site.Params.ui.stat_page | default "Page" }}{{ else }}{{ .Site.Params.ui.stat_pages | default "Pages" }}{{ end }}</div>
+  </div>
+</section>
+
+<!-- Series Section -->
+{{ if $series }}
+<section class="mb-12">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100">
+      {{ .Site.Params.ui.educational_series | default "Educational Series" }}
+    </h2>
+    <a href="/series/" class="text-sm text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors">
+      {{ .Site.Params.ui.view_all | default "View All" }} →
+    </a>
+  </div>
+
+  <div class="grid gap-3">
+    {{ range first 3 $series.Alphabetical }}
+    {{ $seriesPages := .Pages }}
+    {{ $firstPage := index $seriesPages 0 }}
+    <a href="{{ .Page.RelPermalink }}" class="series-card group">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="series-icon">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+            </span>
+            <h3 class="font-semibold text-stone-900 dark:text-stone-100 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors">
+              {{ .Page.Title }}
+            </h3>
+          </div>
+          {{ with $firstPage.Params.seriesDescription }}
+          <p class="text-stone-500 dark:text-stone-400 text-sm mb-2 line-clamp-1">{{ . }}</p>
+          {{ end }}
+          <div class="text-xs text-stone-400 dark:text-stone-500">
+            {{ len $seriesPages }} {{ if eq (len $seriesPages) 1 }}{{ $.Site.Params.ui.stat_part | default "Part" }}{{ else }}{{ $.Site.Params.ui.stat_parts | default "Parts" }}{{ end }}
+          </div>
+        </div>
+        <div class="text-stone-300 dark:text-stone-600 group-hover:text-sage-500 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- Recent Posts -->
+<section class="mb-12">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100">
+      {{ .Site.Params.ui.recent_posts | default "Recent Posts" }}
+    </h2>
+    <a href="/posts/" class="text-sm text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors">
+      {{ .Site.Params.ui.view_all | default "View All" }} →
+    </a>
+  </div>
+
+  <div class="space-y-1">
+    {{ range first 5 (where .Site.RegularPages "Section" "posts") }}
+    <a href="{{ .RelPermalink }}" class="group block p-3 -mx-3 rounded-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <h3 class="font-medium text-stone-900 dark:text-stone-100 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors">
+            {{ .Title }}
+          </h3>
+          <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-1 mt-0.5">
+            {{- with .Description -}}
+              {{ . | plainify | truncate 60 }}
+            {{- else -}}
+              {{ .Summary | plainify | truncate 60 }}
+            {{- end -}}
+          </p>
+        </div>
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-sm text-stone-400 dark:text-stone-500 whitespace-nowrap">
+          {{ partial "date.html" .Date }}
+        </time>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</section>
+
+<!-- Graph Section -->
+<section class="mb-12">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100">
+      {{ .Site.Params.ui.knowledge_graph | default "Knowledge Graph" }}
+    </h2>
+    <a href="/graph/" class="text-sm text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors">
+      {{ .Site.Params.ui.view_all | default "View All" }} →
+    </a>
+  </div>
+
+  <div class="home-graph-wrapper">
+    {{- /* Generate graph data with tags */ -}}
+    {{- $nodes := slice -}}
+    {{- $links := slice -}}
+    {{- $titleToPage := dict -}}
+    {{- $addedTags := slice -}}
+
+    {{- range .Site.RegularPages -}}
+        {{- $titleToPage = merge $titleToPage (dict .Title .) -}}
+    {{- end -}}
+    {{- range .Site.RegularPages -}}
+        {{- $nodes = $nodes | append (dict "id" .RelPermalink "title" .Title "type" "page") -}}
+    {{- end -}}
+    {{- range .Site.RegularPages -}}
+        {{- $source := .RelPermalink -}}
+        {{- $content := .RawContent -}}
+        {{- $currentTags := .Params.tags -}}
+        {{- $pattern := `\[\[([^\]|]+)(?:\|[^\]]+)?\]\]` -}}
+        {{- range $match := findRE $pattern $content -}}
+            {{- $linkTitle := replaceRE $pattern "$1" $match -}}
+            {{- $targetPage := index $titleToPage $linkTitle -}}
+            {{- if $targetPage -}}
+                {{- $links = $links | append (dict "source" $source "target" $targetPage.RelPermalink "type" "direct") -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if $currentTags -}}
+            {{- range $tag := $currentTags -}}
+                {{- $tagId := printf "tag:%s" $tag -}}
+                {{- if not (in $addedTags $tagId) -}}
+                    {{- $nodes = $nodes | append (dict "id" $tagId "title" $tag "type" "tag") -}}
+                    {{- $addedTags = $addedTags | append $tagId -}}
+                {{- end -}}
+                {{- $links = $links | append (dict "source" $source "target" $tagId "type" "tag") -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    <div id="home-graph" dir="ltr"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+    (function() {
+      const graphData = {{ dict "nodes" $nodes "links" $links | jsonify | safeJS }};
+      const container = document.getElementById('home-graph');
+      const rect = container.getBoundingClientRect();
+      const width = rect.width || 800;
+      const height = 320;
+
+      const nodes = graphData.nodes || [];
+      const linkSet = new Set();
+      const links = [];
+      (graphData.links || []).forEach(link => {
+        const key = [link.source, link.target].sort().join('->');
+        if (!linkSet.has(key)) {
+          linkSet.add(key);
+          links.push(link);
+        }
+      });
+
+      if (nodes.length === 0) {
+        container.innerHTML = '<p class="text-center text-stone-500 py-8">{{ .Site.Params.ui.no_pages_yet | default "No pages yet. Start creating content to see your knowledge graph grow!" }}</p>';
+        return;
+      }
+
+      const svg = d3.select('#home-graph')
+        .append('svg')
+        .attr('width', '100%')
+        .attr('height', height)
+        .attr('viewBox', `0 0 ${width} ${height}`);
+
+      const g = svg.append('g');
+
+      const zoom = d3.zoom()
+        .scaleExtent([0.3, 3])
+        .on('zoom', (event) => g.attr('transform', event.transform));
+
+      svg.call(zoom);
+
+      const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(80))
+        .force('charge', d3.forceManyBody().strength(-200))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(25));
+
+      const link = g.append('g')
+        .selectAll('line')
+        .data(links)
+        .enter()
+        .append('line')
+        .attr('class', d => `graph-link ${d.type === 'tag' ? 'tag-link' : 'direct-link'}`)
+        .attr('stroke-opacity', d => d.type === 'tag' ? 0.2 : 0.4);
+
+      const node = g.append('g')
+        .selectAll('g')
+        .data(nodes)
+        .enter()
+        .append('g')
+        .attr('class', 'node')
+        .style('cursor', 'pointer')
+        .call(d3.drag()
+          .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+          .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+          .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+      node.append('circle')
+        .attr('r', d => d.type === 'tag' ? 4 : 6)
+        .attr('class', d => d.type === 'tag' ? 'graph-node tag-node' : 'graph-node');
+
+      node.append('text')
+        .text(d => d.title.length > 18 ? d.title.substring(0, 15) + '..' : d.title)
+        .attr('x', 0)
+        .attr('y', -10)
+        .attr('text-anchor', 'middle')
+        .attr('class', d => `graph-label ${d.type === 'tag' ? 'tag-label' : ''}`);
+
+      node.on('click', (e, d) => {
+        if (d.type === 'tag') {
+          window.location.href = '/tags/' + encodeURIComponent(d.title.toLowerCase()) + '/';
+        } else {
+          window.location.href = d.id;
+        }
+      });
+
+      node.on('mouseover', function(e, d) {
+        d3.select(this).select('circle').attr('r', d.type === 'tag' ? 6 : 8);
+        link.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.05);
+      })
+      .on('mouseout', function(e, d) {
+        d3.select(this).select('circle').attr('r', d.type === 'tag' ? 4 : 6);
+        link.attr('stroke-opacity', l => l.type === 'tag' ? 0.2 : 0.4);
+      });
+
+      simulation.on('tick', () => {
+        link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+      });
+    })();
+    </script>
+  </div>
+</section>
+
+<!-- Tags Cloud -->
+<section class="mb-12">
+  <h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-6">
+    {{ .Site.Params.ui.topics | default "Topics" }}
+  </h2>
+
+  <div class="flex flex-wrap gap-2">
+    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+    <a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}/"
+       class="tag-cloud-item">
+      <span>{{ $name }}</span>
+      <span class="tag-count">({{ len $taxonomy }})</span>
+    </a>
+    {{ end }}
+  </div>
+</section>
+
+{{ partial "footer.html" . }}

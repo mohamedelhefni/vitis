@@ -1,0 +1,13 @@
+{
+  "name": "vitis",
+  "description": "A modern Hugo theme designed as a digital garden with wiki-links, knowledge graph, and backlinks",
+  "scripts": {
+    "dev:css": "tailwindcss -i ./static/css/style.css -o ./static/css/output.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.12",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "3.4.17"
+  }
+}

@@ -1,0 +1,51 @@
+name = "Vitis"
+license = "MIT"
+licenselink = "https://github.com/mohamedelhefni/vitis/blob/main/LICENSE"
+description = "A modern Hugo theme designed as a digital garden with Obsidian-like features including wiki-links, knowledge graph, backlinks, and series support."
+homepage = "https://github.com/mohamedelhefni/vitis"
+demosite = "https://vitis.netlify.app/"
+
+tags = [
+    "blog",
+    "responsive",
+    "clean",
+    "minimal",
+    "light",
+    "dark",
+    "ltr",
+    "english",
+    "digital-garden",
+    "knowledge-base",
+    "personal",
+]
+
+features = [
+    "responsive",
+    "dark mode",
+    "light mode",
+    "LTR support",
+    "English optimized",
+    "wiki-links",
+    "knowledge graph",
+    "backlinks",
+    "series support",
+    "table of contents",
+    "syntax highlighting",
+    "search",
+    "tags",
+    "social icons",
+    "reading time",
+    "Disqus comments",
+]
+
+min_version = "0.112.0"
+
+[author]
+name = "Mohamed Elhefni"
+homepage = "https://github.com/mohamedelhefni"
+
+[original]
+name = "vitis"
+author = "Mohamed Elhefni"
+homepage = "https://github.com/mohamedelhefni/vitis"
+repo = "https://github.com/mohamedelhefni/vitis"

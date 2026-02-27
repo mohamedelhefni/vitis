@@ -1,0 +1,36 @@
+{{- /* 
+  Process content with wiki-style links
+  This processes [[Page Title]] and [[Page Title|Display Text]] syntax
+*/ -}}
+
+{{- $content := .Content -}}
+{{- $site := .Site -}}
+
+{{- /* Build a map of titles to pages for quick lookup */ -}}
+{{- $titleToPage := dict -}}
+{{- range $site.RegularPages -}}
+    {{- $titleToPage = merge $titleToPage (dict .Title .) -}}
+{{- end -}}
+
+{{- /* Process wiki-style links */ -}}
+{{- $pattern := `\[\[([^\]|]+)(?:\|([^\]]+))?\]\]` -}}
+{{- range $match := findRE $pattern $content -}}
+    {{- $linkTitle := replaceRE $pattern "$1" $match -}}
+    {{- $displayText := replaceRE $pattern "$2" $match -}}
+    {{- if eq $displayText "" -}}
+        {{- $displayText = $linkTitle -}}
+    {{- end -}}
+    
+    {{- /* Find the target page */ -}}
+    {{- $targetPage := index $titleToPage $linkTitle -}}
+    
+    {{- if $targetPage -}}
+        {{- $link := printf `<a href="%s" class="wikilink">%s</a>` $targetPage.RelPermalink $displayText -}}
+        {{- $content = replace $content $match $link -}}
+    {{- else -}}
+        {{- $brokenLink := printf `<span class="wikilink broken" title="صفحة غير موجودة">%s</span>` $displayText -}}
+        {{- $content = replace $content $match $brokenLink -}}
+    {{- end -}}
+{{- end -}}
+
+{{ $content | safeHTML }}

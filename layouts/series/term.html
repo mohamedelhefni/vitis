@@ -1,0 +1,84 @@
+{{ partial "header.html" . }}
+
+{{ $seriesName := .Title }}
+{{ $seriesPages := .Pages.ByParam "seriesOrder" }}
+{{ $firstPage := index $seriesPages 0 }}
+{{ $totalParts := len $seriesPages }}
+
+<div class="mb-8">
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-1.5 text-sm text-stone-400 dark:text-stone-500 mb-4">
+    <a href="/" class="hover:text-stone-600 dark:hover:text-stone-300 transition-colors">{{ .Site.Params.ui.breadcrumb_home | default "Home" }}</a>
+    <span>/</span>
+    <a href="/series/" class="hover:text-stone-600 dark:hover:text-stone-300 transition-colors">{{ .Site.Params.ui.series | default "Series" }}</a>
+  </nav>
+
+  <div class="flex items-center gap-3 mb-3">
+    <span class="series-icon-lg">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+      </svg>
+    </span>
+    <h1 class="text-2xl md:text-3xl font-bold text-stone-900 dark:text-stone-100">
+      {{ $seriesName }}
+    </h1>
+  </div>
+
+  {{ with $firstPage.Params.seriesDescription }}
+  <p class="text-stone-600 dark:text-stone-400 mb-4">{{ . }}</p>
+  {{ end }}
+
+  <div class="flex items-center gap-4 text-sm text-stone-500 dark:text-stone-400">
+    <span class="flex items-center gap-1.5">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      {{ $totalParts }} {{ if eq $totalParts 1 }}{{ .Site.Params.ui.stat_part | default "Part" }}{{ else }}{{ .Site.Params.ui.stat_parts | default "Parts" }}{{ end }}
+    </span>
+  </div>
+</div>
+
+<!-- Series Progress -->
+<div class="series-progress mb-8">
+  <div class="flex items-center justify-between text-sm mb-2">
+    <span class="text-stone-500 dark:text-stone-400">{{ .Site.Params.ui.series_progress | default "Series Progress" }}</span>
+    <span class="text-stone-600 dark:text-stone-300 font-medium">{{ $totalParts }} {{ .Site.Params.ui.stat_parts | default "Parts" }}</span>
+  </div>
+  <div class="h-2 bg-stone-200 dark:bg-stone-800 rounded-full overflow-hidden">
+    <div class="h-full bg-sage-500 rounded-full" style="width: 100%"></div>
+  </div>
+</div>
+
+<!-- Series Parts List -->
+<div class="series-parts-list">
+  {{ range $index, $page := $seriesPages }}
+  {{ $partNumber := add $index 1 }}
+  <a href="{{ $page.RelPermalink }}" class="series-part-item group">
+    <div class="series-part-number">
+      <span>{{ $partNumber }}</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <h3 class="font-semibold text-stone-900 dark:text-stone-100 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors mb-1">
+        {{ $page.Title }}
+      </h3>
+      {{ with $page.Description }}
+      <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2">{{ . }}</p>
+      {{ else }}
+      <p class="text-sm text-stone-500 dark:text-stone-400 line-clamp-2">{{ $page.Summary | plainify | truncate 100 }}</p>
+      {{ end }}
+      <div class="flex items-center gap-3 mt-2 text-xs text-stone-400 dark:text-stone-500">
+        <time datetime="{{ $page.Date.Format "2006-01-02" }}">
+          {{ partial "date.html" $page.Date }}
+        </time>
+      </div>
+    </div>
+    <div class="text-stone-300 dark:text-stone-600 group-hover:text-sage-500 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+  </a>
+  {{ end }}
+</div>
+
+{{ partial "footer.html" . }}

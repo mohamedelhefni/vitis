@@ -1,0 +1,187 @@
+{{ partial "header.html" . }}
+
+<div class="py-8">
+	{{/* Header */}}
+	<header class="mb-10">
+		<h1 class="text-3xl font-bold text-stone-900 dark:text-stone-100 mb-3">
+			{{ .Title | default "المشاريع" }}
+		</h1>
+		{{ with .Description }}
+		<p class="text-stone-600 dark:text-stone-400 max-w-2xl">{{ . }}</p>
+		{{ else }}
+		<p class="text-stone-600 dark:text-stone-400 max-w-2xl">مجموعة من المشاريع والمساهمات التي عملت عليها</p>
+		{{ end }}
+	</header>
+
+	{{/* Filter Tabs */}}
+	{{ $types := slice }}
+	{{ range .Pages }}
+		{{ with .Params.type }}
+			{{ $types = $types | append . }}
+		{{ end }}
+	{{ end }}
+	{{ $types = $types | uniq }}
+	
+	{{ if gt (len $types) 1 }}
+	<div class="flex flex-wrap gap-2 mb-8" id="project-filters">
+		<button class="filter-btn active" data-filter="all">الكل</button>
+		{{ range $types }}
+		<button class="filter-btn" data-filter="{{ . }}">
+			{{ if eq . "personal" }}شخصي
+			{{ else if eq . "contribution" }}مساهمة
+			{{ else if eq . "client" }}عميل
+			{{ else if eq . "open-source" }}مفتوح المصدر
+			{{ else }}{{ . }}
+			{{ end }}
+		</button>
+		{{ end }}
+	</div>
+	{{ end }}
+
+	{{/* Projects Grid */}}
+	{{ $projects := .Pages.ByWeight }}
+	{{ if $projects }}
+	<div class="projects-grid" id="projects-grid">
+		{{ range $projects }}
+		<article class="project-card" data-type="{{ .Params.type | default "personal" }}">
+			<a href="{{ .Permalink }}" class="block group">
+				{{/* Thumbnail */}}
+				<div class="project-thumbnail">
+					{{ if .Params.thumbnail }}
+					<img 
+						src="{{ .Params.thumbnail }}" 
+						alt="{{ .Title }}" 
+						class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+						loading="lazy"
+					/>
+					{{ else }}
+					<div class="w-full h-full bg-gradient-to-br from-stone-100 to-stone-200 dark:from-stone-800 dark:to-stone-900 flex items-center justify-center">
+						<svg class="w-12 h-12 text-stone-300 dark:text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+						</svg>
+					</div>
+					{{ end }}
+					
+					{{/* Status Badge */}}
+					{{ with .Params.status }}
+					<span class="project-status-badge status-{{ . }}">
+						{{ if eq . "completed" }}مكتمل
+						{{ else if eq . "in-progress" }}قيد التطوير
+						{{ else if eq . "maintained" }}يتم صيانته
+						{{ else if eq . "archived" }}مؤرشف
+						{{ else }}{{ . }}
+						{{ end }}
+					</span>
+					{{ end }}
+				</div>
+
+				{{/* Content */}}
+				<div class="p-4">
+					{{/* Type Badge */}}
+					<div class="flex items-center gap-2 mb-2">
+						<span class="project-type-badge type-{{ .Params.type | default "personal" }}">
+							{{ if eq .Params.type "personal" }}
+							<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+							شخصي
+							{{ else if eq .Params.type "contribution" }}
+							<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+							مساهمة
+							{{ else if eq .Params.type "client" }}
+							<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+							عميل
+							{{ else if eq .Params.type "open-source" }}
+							<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+							مفتوح المصدر
+							{{ else }}{{ .Params.type }}
+							{{ end }}
+						</span>
+						{{ if .Params.featured }}
+						<span class="project-featured-badge">
+							<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+							مميز
+						</span>
+						{{ end }}
+					</div>
+
+					{{/* Title */}}
+					<h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors mb-2">
+						{{ .Title }}
+					</h2>
+
+					{{/* Description */}}
+					{{ with .Description }}
+					<p class="text-sm text-stone-600 dark:text-stone-400 line-clamp-2 mb-3">{{ . }}</p>
+					{{ end }}
+
+					{{/* Technologies */}}
+					{{ with .Params.technologies }}
+					<div class="flex flex-wrap gap-1.5">
+						{{ range first 4 . }}
+						<span class="tech-badge">{{ . }}</span>
+						{{ end }}
+						{{ if gt (len .) 4 }}
+						<span class="tech-badge">+{{ sub (len .) 4 }}</span>
+						{{ end }}
+					</div>
+					{{ end }}
+				</div>
+			</a>
+
+			{{/* Action Links */}}
+			<div class="project-actions">
+				{{ with .Params.demoURL }}
+				<a href="{{ . }}" target="_blank" rel="noopener" class="project-action-btn" title="عرض حي">
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+				</a>
+				{{ end }}
+				{{ with .Params.repoURL }}
+				<a href="{{ . }}" target="_blank" rel="noopener" class="project-action-btn" title="الكود المصدري">
+					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+				</a>
+				{{ end }}
+				{{ with .Params.projectURL }}
+				<a href="{{ . }}" target="_blank" rel="noopener" class="project-action-btn" title="الموقع">
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+				</a>
+				{{ end }}
+			</div>
+		</article>
+		{{ end }}
+	</div>
+	{{ else }}
+	<div class="text-center py-16">
+		<div class="text-4xl mb-4">📁</div>
+		<p class="text-stone-500 dark:text-stone-400">لا توجد مشاريع بعد</p>
+	</div>
+	{{ end }}
+</div>
+
+{{/* Filter Script */}}
+<script>
+(function() {
+	const filters = document.querySelectorAll('.filter-btn');
+	const projects = document.querySelectorAll('.project-card');
+	
+	filters.forEach(btn => {
+		btn.addEventListener('click', () => {
+			// Update active state
+			filters.forEach(f => f.classList.remove('active'));
+			btn.classList.add('active');
+			
+			const filter = btn.dataset.filter;
+			
+			// Filter projects
+			projects.forEach(project => {
+				if (filter === 'all' || project.dataset.type === filter) {
+					project.style.display = '';
+					project.style.animation = 'fadeIn 0.3s ease';
+				} else {
+					project.style.display = 'none';
+				}
+			});
+		});
+	});
+})();
+</script>
+
+{{ partial "footer.html" . }}
