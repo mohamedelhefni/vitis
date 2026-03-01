@@ -1,100 +1,100 @@
 ---
-title: "مميزات قالب زاهي"
+title: "Zahi Theme Features"
 date: 2024-04-06
 tags: ["Docs", "Features", "Digital Garden"]
-description: "قالب Hugo عربي للحدائق الرقمية مع روابط Wiki وخريطة المعرفة والسلاسل التعليمية"
+description: "Arabic Hugo theme for digital gardens with Wiki links, knowledge graphs, and educational series"
 pinned: true
 ---
 
-قالب زاهي هو قالب Hugo مصمم خصيصاً للحدائق الرقمية والمدونات العربية. يمكنك التعرف على [[أساسيات البرمجة]] و[[تطوير الويب الحديث]] من خلال المقالات المرتبطة.
+Zahi theme is a Hugo theme designed specifically for digital gardens and Arabic blogs. You can learn about [[Programming Basics]] and [[Modern Web Development]] through the linked articles.
 
-## المميزات الجديدة
+## New Features
 
-### 🔗 روابط Wiki
+### 🔗 Wiki Links
 
-يدعم القالب روابط بأسلوب Obsidian باستخدام الأقواس المزدوجة `[[عنوان الصفحة]]`. الروابط الصالحة تظهر بلون أخضر، والروابط المكسورة تظهر بلون أحمر.
+The theme supports Obsidian-style links using double brackets `[[Page Title]]`. Valid links appear in green, and broken links appear in red.
 
-مثال: [[البرمجة بلغة جافاسكريبت]] - [[رابط غير موجود]]
+Example: [[Programming with JavaScript]] - [[Non-existent link]]
 
-### 🕸️ خريطة المعرفة التفاعلية
+### 🕸️ Interactive Knowledge Graph
 
-كل صفحة تحتوي على رسم بياني تفاعلي يعرض:
-- **الصفحات المرتبطة** - بلون أخضر
-- **الوسوم** - بلون برتقالي مع خطوط متقطعة
-- **إمكانية التكبير والسحب**
+Each page contains an interactive graph showing:
+- **Linked Pages** - in green
+- **Tags** - in orange with dashed lines
+- **Zoom and drag capability**
 
-يمكنك مشاهدة [الرسم الكامل للموقع](/graph/).
+You can view [the complete site graph](/graph/).
 
-### 📚 السلاسل التعليمية
+### 📚 Educational Series
 
-ميزة جديدة لتنظيم المقالات في سلاسل مترابطة:
+A new feature for organizing articles in connected series:
 
-- **صفحة السلاسل** - عرض جميع السلاسل في `/series/`
-- **شريط التقدم** - يظهر موقعك في السلسلة
-- **التنقل السهل** - أزرار السابق والتالي
-- **قائمة الأجزاء** - قابلة للطي/التوسيع
+- **Series Page** - display all series at `/series/`
+- **Progress Bar** - shows your position in the series
+- **Easy Navigation** - previous and next buttons
+- **Part List** - collapsible/expandable
 
-للاستخدام، أضف في مقدمة المقالة:
+To use, add to the article frontmatter:
 
 ```yaml
-series: "اسم السلسلة"
+series: "Series Name"
 seriesOrder: 1
-seriesDescription: "وصف السلسلة"
+seriesDescription: "Series description"
 ```
 
-### 🔍 البحث الفوري
+### 🔍 Instant Search
 
-- اضغط `Ctrl+K` أو `Cmd+K` لفتح البحث
-- بحث سريع في العناوين والمحتوى والوسوم
-- تمييز النتائج المطابقة
+- Press `Ctrl+K` or `Cmd+K` to open search
+- Quick search in titles, content, and tags
+- Highlight matching results
 
-### 📍 خارطة الطريق
+### 📍 Roadmap
 
-يمكنك إضافة خرائط طريق لرحلتك التعليمية:
+You can add roadmaps for your learning journey:
 
 {{< roadmap >}}
-- [x] تعلم HTML و CSS | يناير 2024 | الأساسيات المكتملة
-- [x] تعلم JavaScript | فبراير 2024 | أنهيت الأساسيات
-- [-] تعلم React | مارس 2024 | قيد التعلم حالياً
-- [ ] تعلم Node.js | أبريل 2024 | الخطوة القادمة
-- [ ] بناء مشروع كامل | مايو 2024 | الهدف النهائي
+- [x] Learn HTML & CSS | January 2024 | Completed basics
+- [x] Learn JavaScript | February 2024 | Finished basics
+- [-] Learn React | March 2024 | Currently learning
+- [ ] Learn Node.js | April 2024 | Next step
+- [ ] Build complete project | May 2024 | Final goal
 {{< /roadmap >}}
 
 ---
 
-## المميزات الأساسية
+## Core Features
 
-### 🚀 أداء متميز
+### 🚀 Outstanding Performance
 
 ![zahi perf](/images/perf.png)
 
-يتميز القالب بأداء عالٍ وسرعة تحميل ممتازة، مما يضمن تجربة سلسة ومريحة للمستخدمين.
+The theme features high performance and excellent loading speed, ensuring a smooth and comfortable experience for users.
 
-### 💡 جدول المحتويات القابل للطي
+### 💡 Collapsible Table of Contents
 
-- يظهر تلقائياً للمقالات الطويلة
-- قابل للطي والتوسيع
-- روابط سريعة للأقسام مع تمرير سلس
+- Automatically appears for long articles
+- Collapsible and expandable
+- Quick links to sections with smooth scrolling
 
-### 📌 المقالات المثبتة
+### 📌 Pinned Articles
 
-يسمح بتثبيت المقالات الهامة في الصفحة الرئيسية:
+Allows pinning important articles on the homepage:
 
 ```yaml
 pinned: true
 ```
 
-### 🏷️ الوسوم والتصنيفات
+### 🏷️ Tags and Categories
 
-- تصنيف المحتوى بسهولة
-- صفحة خاصة لكل وسم
-- سحابة الوسوم في الصفحة الرئيسية
+- Easy content categorization
+- Dedicated page for each tag
+- Tag cloud on homepage
 
-اطلع على [[البرمجة بلغة جافاسكريبت]] لمزيد من الأمثلة.
+Check out [[Programming with JavaScript]] for more examples.
 
-### 💬 دعم Disqus (خانة التعليقات)
+### 💬 Disqus Support (Comments Section)
 
-يتيح التفاعل مع القراء من خلال خانة التعليقات Disqus:
+Enables interaction with readers through Disqus comments:
 
 ```toml
 [services]
@@ -102,13 +102,13 @@ pinned: true
 shortname = 'your-shortname'
 ```
 
-### 📄 التصفح بالصفحات (Pagination)
+### 📄 Pagination
 
-يسمح بتقسيم المحتوى إلى صفحات منفصلة لتسهيل التصفح وتحسين تجربة المستخدم.
+Allows dividing content into separate pages to facilitate browsing and improve user experience.
 
-### 🎨 تلوين الكود (Syntax Highlighting)
+### 🎨 Syntax Highlighting
 
-يميز ويجعل الكود أكثر وضوحًا مع زر نسخ سريع:
+Distinguishes and makes code clearer with a quick copy button:
 
 ```js
 console.log("hello world from Zahi!")
@@ -121,70 +121,70 @@ setupZahi()
 ```
 
 ```python
-# مثال بايثون
+# Python example
 def greet(name):
-    return f"مرحباً {name}!"
+    return f"Hello {name}!"
 
-print(greet("زاهي"))
+print(greet("Zahi"))
 ```
 
-### 📱 متجاوب مع جميع الشاشات
+### 📱 Responsive on All Screens
 
-يظهر القالب بشكل متميز ومتجاوب على جميع أحجام الشاشات، مما يضمن تجربة متسقة للمستخدمين على جميع الأجهزة.
+The theme displays excellently and responsively on all screen sizes, ensuring a consistent experience for users across all devices.
 
-### 🌓 الوضع الداكن والوضع الفاتح
+### 🌓 Dark Mode and Light Mode
 
-يتيح اختيار الوضع المفضل للمستخدم بين الوضع الداكن والوضع الفاتح:
-- التبديل بنقرة واحدة
-- يحفظ التفضيل تلقائياً
-- يتبع إعدادات النظام افتراضياً
+Allows choosing the user's preferred mode between dark and light:
+- Toggle with one click
+- Saves preference automatically
+- Follows system settings by default
 
-### 📜 دعم المقالات الإنجليزية
+### 📜 English Article Support
 
-يدعم إنشاء وإدارة مقالات باللغة الإنجليزية:
+Supports creating and managing articles in English:
 
 ```yaml
 direction: "ltr"
 ```
 
-### 📊 إحصائيات الصفحة الرئيسية
+### 📊 Homepage Statistics
 
-عرض إحصائيات سريعة:
-- عدد المقالات
-- عدد السلاسل
-- عدد التصنيفات
-- عدد الصفحات
+Display quick statistics:
+- Number of articles
+- Number of series
+- Number of categories
+- Number of pages
 
-### 🔄 مشاركة المقالات
+### 🔄 Article Sharing
 
-أزرار مشاركة سريعة لـ:
+Quick share buttons for:
 - Twitter/X
 - LinkedIn
-- نسخ الرابط
+- Copy link
 
 ---
 
-## البدء السريع
+## Quick Start
 
-### 1. التثبيت
+### 1. Installation
 
 ```bash
-# إنشاء مشروع جديد
+# Create new project
 hugo new site my-digital-garden
 
-# إضافة القالب
+# Add theme
 cd my-digital-garden
 git init
 git submodule add https://github.com/mohamedelhefni/zahi themes/zahi
 ```
 
-### 2. الإعدادات
+### 2. Configuration
 
 ```toml
 # hugo.toml
 theme = "zahi"
-languageCode = "ar"
-defaultContentLanguage = "ar"
+languageCode = "en"
+defaultContentLanguage = "en"
 
 [taxonomies]
 tag = "tags"
@@ -194,13 +194,13 @@ series = "series"
 home = ["HTML", "RSS", "JSON"]
 ```
 
-### 3. إنشاء محتوى
+### 3. Create Content
 
 ```bash
 hugo new posts/my-first-post.md
 ```
 
-### 4. تشغيل الخادم
+### 4. Run Server
 
 ```bash
 hugo server
@@ -208,4 +208,4 @@ hugo server
 
 ---
 
-للمزيد من المعلومات، راجع [[أساسيات البرمجة]] أو [[Git و GitHub]].
+For more information, see [[Programming Basics]] or [[Git and GitHub]].

@@ -2,7 +2,7 @@
 title: "Dawenha - Note Sharing"
 date: 2021-10-16
 draft: false
-description: "موقع لمشاركة الملاحظات بصيغة Markdown مع تمييز الأكواد"
+description: "Website for sharing notes in Markdown format with code highlighting"
 thumbnail: ""
 demoURL: "https://dawenha.onrender.com/"
 type: "personal"
@@ -10,17 +10,17 @@ technologies: ["Node.js", "MongoDB", "JavaScript", "Markdown"]
 status: "completed"
 featured: false
 weight: 45
-tags: ["Node.js", "MongoDB", "تطبيقات ويب"]
+tags: ["Node.js", "MongoDB", "web apps"]
 ---
 
-## نظرة عامة
+## Overview
 
-موقع لمشاركة الملاحظات يتيح الكتابة بصيغة Markdown مع تمييز الأكواد البرمجية.
+A note-sharing website that allows writing in Markdown format with code highlighting.
 
-![لقطة شاشة](/images/dawenha.png)
+![Screenshot](/images/dawenha.png)
 
-## المميزات
+## Features
 
-- كتابة الملاحظات بـ Markdown
-- تمييز الأكواد البرمجية
-- مشاركة الملاحظات مع الآخرين
+- Write notes in Markdown
+- Code syntax highlighting
+- Share notes with others

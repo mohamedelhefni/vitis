@@ -106,16 +106,16 @@
 
 <!-- Related Posts -->
 {{ $related := .Site.RegularPages.Related . | first 3 }}
-{{ with $related }}
+{{ if $related }}
 <section class="mt-10">
   <h2 class="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
     <svg class="w-5 h-5 text-sage-600 dark:text-sage-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
     </svg>
-    {{ .Site.Params.ui.related_posts | default "Related Posts" }}
+    {{ $.Site.Params.ui.related_posts | default "Related Posts" }}
   </h2>
   <div class="grid gap-3">
-    {{ range . }}
+    {{ range $related }}
     <a href="{{ .RelPermalink }}" class="related-post-card group">
       <div class="flex-1 min-w-0">
         <h3 class="font-medium text-stone-800 dark:text-stone-200 group-hover:text-sage-600 dark:group-hover:text-sage-400 transition-colors line-clamp-1 mb-1">

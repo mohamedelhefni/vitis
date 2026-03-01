@@ -49,15 +49,15 @@
 <div id="graph-overlay" class="graph-overlay"></div>
 <div id="graph-container" class="graph-wrapper" dir="ltr">
     <div class="graph-header">
-        <span class="graph-title">خريطة الروابط</span>
+        <span class="graph-title">Link Map</span>
         <div class="flex items-center gap-2">
             <div class="flex items-center gap-1.5 text-xs text-stone-500">
                 <span class="w-2 h-2 rounded-full bg-sage-500"></span>
-                <span>صفحات</span>
+                <span>Pages</span>
                 <span class="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
-                <span>وسوم</span>
+                <span>Tags</span>
             </div>
-            <button id="graph-expand" class="graph-btn" title="توسيع">
+            <button id="graph-expand" class="graph-btn" title="Expand">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 3 21 3 21 9"></polyline>
                     <polyline points="9 21 3 21 3 15"></polyline>
@@ -101,7 +101,7 @@
         let { nodes, links } = filterGraphData(data, currentPagePath);
         
         if (nodes.length === 0) {
-            container.innerHTML = '<p class="text-center text-stone-500 text-sm p-4">لا توجد صفحات مرتبطة</p>';
+            container.innerHTML = '<p class="text-center text-stone-500 text-sm p-4">No linked pages</p>';
             return;
         }
         

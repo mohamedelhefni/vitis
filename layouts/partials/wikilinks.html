@@ -28,7 +28,7 @@
         {{- $link := printf `<a href="%s" class="wikilink">%s</a>` $targetPage.RelPermalink $displayText -}}
         {{- $content = replace $content $match $link -}}
     {{- else -}}
-        {{- $brokenLink := printf `<span class="wikilink broken" title="صفحة غير موجودة">%s</span>` $displayText -}}
+        {{- $brokenLink := printf `<span class="wikilink broken" title="Page not found">%s</span>` $displayText -}}
         {{- $content = replace $content $match $brokenLink -}}
     {{- end -}}
 {{- end -}}

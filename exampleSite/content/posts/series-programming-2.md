@@ -1,51 +1,51 @@
 ---
-title: "اختيار لغة البرمجة الأولى"
+title: "Choosing Your First Programming Language"
 date: 2024-02-05
-tags: ["برمجة", "تعليم", "بايثون"]
-series: "رحلة تعلم البرمجة"
+tags: ["programming", "education", "python"]
+series: "Programming Learning Journey"
 seriesOrder: 2
-seriesDescription: "سلسلة شاملة لتعلم البرمجة من الصفر حتى الاحتراف"
+seriesDescription: "A comprehensive series for learning programming from zero to mastery"
 ---
 
-## كيف تختار لغتك الأولى؟
+## How to Choose Your First Language?
 
-اختيار لغة البرمجة الأولى قرار مهم، لكن لا تقلق - المفاهيم التي ستتعلمها قابلة للتطبيق في أي لغة.
+Choosing your first programming language is an important decision, but don't worry - the concepts you'll learn are applicable in any language.
 
-### اللغات المقترحة للمبتدئين
+### Recommended Languages for Beginners
 
-#### 1. Python (بايثون)
+#### 1. Python
 
-الخيار الأفضل للمبتدئين:
-- بناء جملة بسيط وواضح
-- مجتمع كبير وداعم
-- مكتبات متنوعة للذكاء الاصطناعي وتحليل البيانات
+The best choice for beginners:
+- Simple and clear syntax
+- Large and supportive community
+- Diverse libraries for AI and data analysis
 
 ```python
-print("مرحباً بالعالم!")
+print("Hello World!")
 ```
 
-#### 2. JavaScript (جافاسكريبت)
+#### 2. JavaScript
 
-مثالية لتطوير الويب:
-- تعمل في المتصفح مباشرة
-- يمكن استخدامها للواجهة الأمامية والخلفية
+Ideal for web development:
+- Works directly in the browser
+- Can be used for frontend and backend
 
 ```javascript
-console.log("مرحباً بالعالم!");
+console.log("Hello World!");
 ```
 
-### نصيحتي
+### My Advice
 
-ابدأ بـ Python إذا كنت مهتماً بـ:
-- علم البيانات
-- الذكاء الاصطناعي
-- الأتمتة
+Start with Python if you're interested in:
+- Data science
+- Artificial intelligence
+- Automation
 
-ابدأ بـ JavaScript إذا كنت مهتماً بـ:
-- تطوير المواقع
-- تطبيقات الويب
-- التطوير الشامل (Full Stack)
+Start with JavaScript if you're interested in:
+- Website development
+- Web applications
+- Full Stack development
 
-### في الجزء القادم
+### In the Next Part
 
-سنكتب معاً أول برنامج حقيقي ونتعرف على بيئة التطوير.
+We'll write our first real program together and learn about the development environment.

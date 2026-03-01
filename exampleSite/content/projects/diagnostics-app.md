@@ -2,7 +2,7 @@
 title: "Diagnostics App"
 date: 2021-05-02
 draft: false
-description: "تطبيق تشخيص النظام يعرض استخدام المعالج والذاكرة والتخزين"
+description: "System diagnostic application displaying CPU, memory, and storage usage"
 thumbnail: "https://mohamedelhefni.000webhostapp.com/wp-content/uploads/2021/05/cpu-chart-1.png"
 repoURL: "https://github.com/MohamedElhefni/Diagnostics-app"
 demoURL: "https://diagnostics-app.netlify.app/"
@@ -11,31 +11,31 @@ technologies: ["JavaScript", "Chrome Extension", "Materialize CSS"]
 status: "completed"
 featured: false
 weight: 50
-tags: ["JavaScript", "إضافات كروم", "أدوات"]
+tags: ["JavaScript", "chrome extensions", "tools"]
 ---
 
-## نظرة عامة
+## Overview
 
-تطبيق تشخيص بسيط يعرض:
-- رسم بياني لاستخدام المعالج
-- رسم بياني لاستخدام الذاكرة
-- معلومات التخزين
+A simple diagnostic app that displays:
+- CPU usage chart
+- Memory usage chart
+- Storage information
 
-![عرض التطبيق](https://mohamedelhefni.000webhostapp.com/wp-content/uploads/2021/05/diagnostics-1024x545.gif)
+![App Demo](https://mohamedelhefni.000webhostapp.com/wp-content/uploads/2021/05/diagnostics-1024x545.gif)
 
-## الخلفية
+## Background
 
-أنشأت هذا المشروع لحل مهمة GSOC 2021 Starter Bug.
+I created this project to solve the GSOC 2021 Starter Bug task.
 
-## طريقة الاستخدام
+## How to Use
 
-1. حمّل المستودع:
+1. Clone the repository:
 ```bash
 git clone https://github.com/MohamedElhefni/Diagnostics-app.git
 ```
 
-2. اذهب إلى إضافات كروم واختر "Load unpacked" ثم اختر مجلد extension
+2. Go to Chrome extensions and select "Load unpacked" then choose the extension folder
 
-3. بعد تثبيت الإضافة، استخدم معرف الإضافة للاتصال بين PWA والإضافة
+3. After installing the extension, use the extension ID to connect between the PWA and the extension
 
-> ملاحظة: يجب تثبيت الإضافة أولاً لاستخدام التطبيق
+> Note: The extension must be installed first to use the application

@@ -1,8 +1,8 @@
 ---
-title: "Qalam - قلم"
+title: "Qalam - Pen"
 date: 2023-06-01
 draft: false
-description: "تطبيق ملاحظات عربي مفتوح المصدر"
+description: "Open source Arabic notes application"
 thumbnail: ""
 demoURL: "https://lawh.netlify.app/"
 type: "open-source"
@@ -10,17 +10,17 @@ technologies: ["Vue.js", "JavaScript", "LocalStorage"]
 status: "completed"
 featured: false
 weight: 40
-tags: ["Vue.js", "مفتوح المصدر", "إنتاجية"]
+tags: ["Vue.js", "open source", "productivity"]
 ---
 
-## نظرة عامة
+## Overview
 
-تطبيق ملاحظات عربي مفتوح المصدر مبني بـ Vue.js.
+An open source Arabic notes application built with Vue.js.
 
-![لقطة شاشة](/images/khatat.png)
+![Screenshot](/images/khatat.png)
 
-## المميزات
+## Features
 
-- واجهة عربية بالكامل
-- حفظ الملاحظات محلياً
-- تصميم بسيط ونظيف
+- Fully Arabic interface
+- Save notes locally
+- Simple and clean design

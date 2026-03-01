@@ -1,64 +1,64 @@
 ---
-title: "كتابة أول برنامج"
+title: "Writing Your First Program"
 date: 2024-02-10
-tags: ["برمجة", "تعليم", "بايثون", "تطبيق عملي"]
-series: "رحلة تعلم البرمجة"
+tags: ["programming", "education", "python", "practical application"]
+series: "Programming Learning Journey"
 seriesOrder: 3
-seriesDescription: "سلسلة شاملة لتعلم البرمجة من الصفر حتى الاحتراف"
+seriesDescription: "A comprehensive series for learning programming from zero to mastery"
 ---
 
-## بيئة التطوير
+## Development Environment
 
-قبل كتابة أول برنامج، نحتاج إلى تجهيز بيئة التطوير.
+Before writing our first program, we need to set up the development environment.
 
-### تثبيت Python
+### Installing Python
 
-1. زيارة الموقع الرسمي python.org
-2. تحميل أحدث إصدار
-3. تثبيت البرنامج مع تفعيل خيار "Add to PATH"
+1. Visit the official website python.org
+2. Download the latest version
+3. Install the program with "Add to PATH" option enabled
 
-### محرر الأكواد
+### Code Editor
 
-أنصح باستخدام **VS Code**:
-- مجاني ومفتوح المصدر
-- إضافات متنوعة
-- دعم ممتاز للغات متعددة
+I recommend using **VS Code**:
+- Free and open source
+- Diverse extensions
+- Excellent support for multiple languages
 
-## أول برنامج
+## First Program
 
-### مرحباً بالعالم
-
-```python
-# أول برنامج لنا
-print("مرحباً بالعالم!")
-print("أنا أتعلم البرمجة")
-```
-
-### برنامج تفاعلي
+### Hello World
 
 ```python
-# طلب اسم المستخدم
-name = input("ما اسمك؟ ")
-print(f"أهلاً {name}! مرحباً بك في عالم البرمجة")
+# Our first program
+print("Hello World!")
+print("I'm learning programming")
 ```
 
-### آلة حاسبة بسيطة
+### Interactive Program
 
 ```python
-# آلة حاسبة بسيطة
-num1 = float(input("أدخل الرقم الأول: "))
-num2 = float(input("أدخل الرقم الثاني: "))
-
-print(f"المجموع: {num1 + num2}")
-print(f"الفرق: {num1 - num2}")
-print(f"الضرب: {num1 * num2}")
-print(f"القسمة: {num1 / num2}")
+# Request user name
+name = input("What's your name? ")
+print(f"Hi {name}! Welcome to the world of programming")
 ```
 
-## تمرين
+### Simple Calculator
 
-جرب كتابة برنامج يسأل المستخدم عن عمره ويحسب سنة ميلاده.
+```python
+# Simple calculator
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
 
-### في الجزء القادم
+print(f"Sum: {num1 + num2}")
+print(f"Difference: {num1 - num2}")
+print(f"Multiplication: {num1 * num2}")
+print(f"Division: {num1 / num2}")
+```
 
-سنتعلم عن المتغيرات وأنواع البيانات بالتفصيل.
+## Exercise
+
+Try writing a program that asks the user for their age and calculates their birth year.
+
+### In the Next Part
+
+We'll learn about variables and data types in detail.

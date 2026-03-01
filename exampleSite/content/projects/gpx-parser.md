@@ -2,7 +2,7 @@
 title: "GPX Parser"
 date: 2022-08-20
 draft: false
-description: "مكتبة JavaScript لتحليل ملفات GPX واستخراج البيانات"
+description: "JavaScript library for parsing GPX files and extracting data"
 thumbnail: ""
 repoURL: "https://github.com/mohamedelhefni/gpx-parser"
 type: "open-source"
@@ -10,24 +10,24 @@ technologies: ["JavaScript", "npm", "GeoJSON"]
 status: "completed"
 featured: false
 weight: 35
-tags: ["JavaScript", "مكتبات", "خرائط"]
+tags: ["JavaScript", "libraries", "maps"]
 ---
 
-## نظرة عامة
+## Overview
 
-مكتبة لتحليل ملفات GPX واستخراج البيانات مع الوظائف التالية:
+A library for parsing GPX files and extracting data with the following functions:
 
-- استخراج البيانات الوصفية ونقاط الطريق
-- استخراج المسارات والطرق مع النقاط والمسافة الإجمالية
-- تحويل GPX إلى GeoJSON
+- Extract metadata and waypoints
+- Extract tracks and routes with points and total distance
+- Convert GPX to GeoJSON
 
-## التثبيت
+## Installation
 
 ```bash
 npm i gpxtojs
 ```
 
-## الاستخدام
+## Usage
 
 ```js
 const gpxtojs = require("gpxtojs")
@@ -39,7 +39,7 @@ gpx.getTracks()
 gpx.getRoutes()
 ```
 
-### التحويل إلى GeoJSON
+### Convert to GeoJSON
 
 ```js
 gpx.toGeoJson()

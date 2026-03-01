@@ -1,27 +1,27 @@
 ---
-title: "أساسيات البرمجة"
+title: "Programming Basics"
 date: 2024-01-10
-tags: ["برمجة", "تعليم", "أساسيات"]
+tags: ["programming", "education", "basics"]
 ---
 
-## ما هي البرمجة؟
+## What is Programming?
 
-البرمجة هي عملية كتابة تعليمات للحاسوب لتنفيذ مهام معينة. تُستخدم البرمجة في كل مكان من حولنا.
+Programming is the process of writing instructions for a computer to perform certain tasks. Programming is used everywhere around us.
 
-### لماذا نتعلم البرمجة؟
+### Why Learn Programming?
 
-- تطوير التفكير المنطقي
-- إنشاء حلول للمشاكل
-- فرص عمل متنوعة
+- Develop logical thinking
+- Create solutions to problems
+- Diverse job opportunities
 
-### اللغات المقترحة للمبتدئين
+### Recommended Languages for Beginners
 
-1. **Python** - سهلة التعلم
-2. **[[البرمجة بلغة جافاسكريبت]]** - للويب والتطبيقات
-3. **Scratch** - للأطفال والمبتدئين
+1. **Python** - easy to learn
+2. **[[Programming with JavaScript]]** - for web and applications
+3. **Scratch** - for children and beginners
 
-### الخطوة التالية
+### Next Step
 
-بعد تعلم الأساسيات، يمكنك الانتقال إلى [[تطوير الويب الحديث]].
+After learning the basics, you can move on to [[Modern Web Development]].
 
-اقرأ أيضاً عن [[Git و GitHub]] لإدارة مشاريعك.
+Also read about [[Git and GitHub]] to manage your projects.

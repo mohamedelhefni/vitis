@@ -1,31 +1,31 @@
 ---
-title: "البرمجة بلغة جافاسكريبت"
+title: "Programming with JavaScript"
 date: 2024-01-15
-tags: ["برمجة", "جافاسكريبت", "تطوير الويب"]
+tags: ["programming", "javascript", "web development"]
 ---
 
-## مقدمة في جافاسكريبت
+## Introduction to JavaScript
 
-جافاسكريبت هي لغة برمجة تُستخدم بشكل أساسي في [[تطوير الويب الحديث]] لإضافة التفاعلية إلى صفحات الويب.
+JavaScript is a programming language primarily used in [[Modern Web Development]] to add interactivity to web pages.
 
-### المفاهيم الأساسية
+### Basic Concepts
 
-تتضمن جافاسكريبت عدة مفاهيم أساسية مثل:
+JavaScript includes several fundamental concepts such as:
 
-- المتغيرات والثوابت
-- الدوال والكائنات
-- التعامل مع DOM
+- Variables and constants
+- Functions and objects
+- DOM manipulation
 
-للمزيد عن تطوير الويب، راجع مقالة [[تطوير الويب الحديث]].
+For more about web development, see the article [[Modern Web Development]].
 
-### الأطر والمكتبات
+### Frameworks and Libraries
 
-من أشهر الأطر المستخدمة مع جافاسكريبت:
+Among the most popular frameworks used with JavaScript:
 
-1. React - لبناء واجهات المستخدم
-2. Vue - إطار عمل تدريجي
-3. Node.js - لتشغيل جافاسكريبت على الخادم
+1. React - for building user interfaces
+2. Vue - a progressive framework
+3. Node.js - for running JavaScript on the server
 
-اقرأ المزيد عن [[أساسيات البرمجة]] لفهم أعمق.
+Read more about [[Programming Basics]] for a deeper understanding.
 
-تعلم أيضاً [[Git و GitHub]] لإدارة مشاريعك.
+Also learn [[Git and GitHub]] to manage your projects.

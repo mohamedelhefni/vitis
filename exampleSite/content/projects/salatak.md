@@ -1,8 +1,8 @@
 ---
-title: "Salatak - صلاتك"
+title: "Salatak - Prayer Times"
 date: 2023-08-01
 draft: false
-description: "تطبيق لتوليد ملفات ICS لأوقات الصلاة"
+description: "Application for generating ICS files for prayer times"
 thumbnail: ""
 demoURL: "https://salatak.netlify.app/"
 type: "personal"
@@ -10,29 +10,29 @@ technologies: ["Vue.js", "JavaScript", "Tailwind CSS", "ICS"]
 status: "completed"
 featured: true
 weight: 18
-tags: ["Vue.js", "أدوات", "إسلامي"]
+tags: ["Vue.js", "tools", "islamic"]
 ---
 
-## نظرة عامة
+## Overview
 
-تطبيق ويب يساعدك على توليد ملف ICS (iCalendar) يحتوي على أوقات الصلاة الدقيقة لموقعك. يمكنك استيراد الملف إلى تطبيق التقويم المفضل لديك.
+A web application that helps you generate an ICS (iCalendar) file containing accurate prayer times for your location. You can import the file into your favorite calendar application.
 
-## المميزات
+## Features
 
-- حساب أوقات الصلاة الدقيقة حسب الموقع الجغرافي
-- دعم طرق حساب متعددة (أم القرى، رابطة العالم الإسلامي، ISNA، إلخ)
-- توليد أوقات الصلاة لفترة زمنية محددة
-- توليد ملف ICS للتقويم
-- واجهة مستخدم سهلة
-- تحديثات منتظمة للدقة
+- Calculate precise prayer times based on geographic location
+- Support for multiple calculation methods (Umm al-Qura, Muslim World League, ISNA, etc.)
+- Generate prayer times for a specific time period
+- Generate ICS file for calendar
+- Easy-to-use interface
+- Regular updates for accuracy
 
-## طريقة الاستخدام
+## How to Use
 
-1. **تحديد الموقع**: يدوياً أو تلقائياً عبر GPS
-2. **اختيار طريقة الحساب**: اختر الطريقة المفضلة والمذهب
-3. **توليد الملف**: اختر الفترة الزمنية واضغط "توليد ICS"
-4. **استيراد الملف**: استورد الملف إلى تقويم Google أو Apple أو Outlook
+1. **Set Location**: Manually or automatically via GPS
+2. **Choose Calculation Method**: Select your preferred method and school of thought
+3. **Generate File**: Choose time period and click "Generate ICS"
+4. **Import File**: Import the file into Google Calendar, Apple Calendar, or Outlook
 
-## الهدف
+## Goal
 
-تسهيل الحفاظ على أوقات الصلاة من خلال دمجها مع التقويم الرقمي.
+Make it easier to maintain prayer times by integrating them with your digital calendar.

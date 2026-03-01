@@ -1,33 +1,33 @@
 ---
-title: "مقدمة في البرمجة"
+title: "Introduction to Programming"
 date: 2024-02-01
-tags: ["برمجة", "تعليم", "أساسيات"]
-series: "رحلة تعلم البرمجة"
+tags: ["programming", "education", "basics"]
+series: "Programming Learning Journey"
 seriesOrder: 1
-seriesDescription: "سلسلة شاملة لتعلم البرمجة من الصفر حتى الاحتراف"
+seriesDescription: "A comprehensive series for learning programming from zero to mastery"
 ---
 
-## ما هي البرمجة؟
+## What is Programming?
 
-البرمجة هي فن إعطاء التعليمات للحاسوب لتنفيذ مهام محددة. تخيل أنك تكتب وصفة طبخ - كل خطوة يجب أن تكون واضحة ومحددة.
+Programming is the art of giving instructions to a computer to perform specific tasks. Imagine you're writing a cooking recipe - each step must be clear and specific.
 
-### لماذا نتعلم البرمجة؟
+### Why Learn Programming?
 
-في عصرنا الحالي، أصبحت البرمجة مهارة أساسية:
+In our current era, programming has become an essential skill:
 
-- **تطوير التفكير المنطقي**: البرمجة تعلمك حل المشاكل بشكل منهجي
-- **فرص العمل**: الطلب على المبرمجين في تزايد مستمر
-- **الإبداع**: يمكنك تحويل أفكارك إلى واقع
+- **Develop Logical Thinking**: Programming teaches you to solve problems systematically
+- **Job Opportunities**: Demand for programmers is constantly increasing
+- **Creativity**: You can turn your ideas into reality
 
-### المفاهيم الأساسية
+### Basic Concepts
 
-كل لغات البرمجة تشترك في مفاهيم أساسية:
+All programming languages share fundamental concepts:
 
-1. **المتغيرات** - لتخزين البيانات
-2. **الشروط** - لاتخاذ القرارات
-3. **الحلقات** - لتكرار العمليات
-4. **الدوال** - لتنظيم الكود
+1. **Variables** - for storing data
+2. **Conditions** - for making decisions
+3. **Loops** - for repeating operations
+4. **Functions** - for organizing code
 
-### الخطوة التالية
+### Next Step
 
-في الجزء القادم، سنتعرف على أول لغة برمجة وكيفية كتابة أول برنامج.
+In the next part, we'll learn about our first programming language and how to write our first program.

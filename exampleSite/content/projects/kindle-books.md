@@ -2,7 +2,7 @@
 title: "Kindle Books"
 date: 2021-06-05
 draft: false
-description: "موقع يحتوي على أكثر من 8000 كتاب إلكتروني بصيغ متعددة"
+description: "Website containing over 8000 eBooks in multiple formats"
 thumbnail: "https://mohamedelhefni.000webhostapp.com/wp-content/uploads/2021/06/Screenshot-from-2021-05-18-13-29-21.png"
 repoURL: "https://github.com/mohamedelhefni/kindlebooks/"
 demoURL: "http://kindlebooks.netlify.app/"
@@ -11,37 +11,37 @@ technologies: ["Vue.js", "Node.js", "MongoDB", "Tailwind CSS", "Google Drive API
 status: "completed"
 featured: true
 weight: 15
-tags: ["Vue.js", "Node.js", "تطبيقات ويب"]
+tags: ["Vue.js", "Node.js", "web apps"]
 ---
 
-## نظرة عامة
+## Overview
 
-موقع يتيح البحث في مجموعة تضم حوالي 8000 كتاب إلكتروني بصيغ متنوعة: mobi، epub، azw3، kfx، pdf.
+A website that allows searching through a collection of about 8000 eBooks in various formats: mobi, epub, azw3, kfx, pdf.
 
-![الواجهة](/images/kindlebooks.png)
+![Interface](/images/kindlebooks.png)
 
-## آلية العمل
+## How it Works
 
-1. أنشأت سكربت Python يستخدم جلسة Telegram لجلب الملفات من قناة
-2. يقوم السكربت بتحميل كل ملف ورفعه إلى Google Drive
-3. تم تشغيل السكربت على Google Cloud Console
-4. ينتج ملف CSV يحتوي على اسم الكتاب ومعرفات Telegram و Drive
+1. Created a Python script that uses a Telegram session to fetch files from a channel
+2. The script downloads each file and uploads it to Google Drive
+3. The script was run on Google Cloud Console
+4. Produces a CSV file containing book name and Telegram/Drive IDs
 
-## المميزات
+## Features
 
-- البحث في الكتب
-- حفظ الكتب في المفضلة
-- تحميل الكتب من Google Drive
+- Search books
+- Save books to favorites
+- Download books from Google Drive
 
-## البنية التقنية
+## Technical Stack
 
-- **الواجهة**: Vue.js + Tailwind CSS (Netlify)
-- **الخادم**: Node.js + Express (Heroku)
-- **قاعدة البيانات**: MongoDB Atlas
-- **التخزين**: Google Drive API
+- **Frontend**: Vue.js + Tailwind CSS (Netlify)
+- **Backend**: Node.js + Express (Heroku)
+- **Database**: MongoDB Atlas
+- **Storage**: Google Drive API
 
-## الأداء
+## Performance
 
-التطبيق يتحمل بسهولة 100 ألف طلب، بينما النسخة السابقة بـ Python/Flask/MySQL فشلت بعد 500 طلب فقط.
+The application easily handles 100k requests, while the previous version with Python/Flask/MySQL failed after only 500 requests.
 
-![اختبار الأداء](/images/kindle-benchmark.png)
+![Performance Test](/images/kindle-benchmark.png)

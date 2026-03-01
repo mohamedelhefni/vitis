@@ -1,41 +1,41 @@
 ---
-title: "Git و GitHub"
+title: "Git and GitHub"
 date: 2024-01-12
-tags: ["برمجة", "أدوات", "git"]
+tags: ["programming", "tools", "git"]
 ---
 
-## نظام التحكم في الإصدارات
+## Version Control System
 
-Git هو نظام للتحكم في الإصدارات يساعد المبرمجين على تتبع التغييرات في الكود وإدارة المشاريع.
+Git is a version control system that helps programmers track code changes and manage projects.
 
-### لماذا Git؟
+### Why Git?
 
-- تتبع جميع التغييرات
-- العمل الجماعي بسهولة
-- الرجوع لأي نسخة سابقة
+- Track all changes
+- Easy team collaboration
+- Revert to any previous version
 
-### الأوامر الأساسية
+### Basic Commands
 
 ```bash
 git init
 git add .
-git commit -m "رسالة"
+git commit -m "message"
 git push
 ```
 
 ### GitHub
 
-GitHub هو منصة لاستضافة مشاريع Git وتتيح:
+GitHub is a platform for hosting Git projects and enables:
 
-- مشاركة الكود
-- التعاون مع فريق
-- إدارة المشاريع
+- Code sharing
+- Team collaboration
+- Project management
 
 
-### استخدامات Git
+### Git Usage
 
-يُستخدم Git في [[تطوير الويب الحديث]] بشكل أساسي.
+Git is primarily used in [[Modern Web Development]].
 
-تعلم Git أمر ضروري لأي مبرمج يعمل بـ [[البرمجة بلغة جافاسكريبت]] أو أي لغة أخرى.
+Learning Git is essential for any programmer working with [[Programming with JavaScript]] or any other language.
 
-ابدأ بتعلم [[أساسيات البرمجة]] أولاً إن كنت مبتدئاً.
+Start by learning [[Programming Basics]] first if you're a beginner.

@@ -1,6 +1,10 @@
 # Vitis Theme Configuration
 # This file specifies Hugo version requirements for the theme
 
+# Language settings
+languageCode = "en-us"
+defaultContentLanguage = "en"
+
 [module]
   [module.hugoVersion]
     extended = true

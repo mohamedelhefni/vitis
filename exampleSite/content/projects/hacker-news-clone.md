@@ -2,29 +2,29 @@
 title: "Hacker News Clone"
 date: 2020-08-07
 draft: false
-description: "استنساخ Hacker News باستخدام React و Tailwind CSS"
+description: "Hacker News clone using React and Tailwind CSS"
 demoURL: "https://hackernews2.netlify.app/"
 type: "personal"
 technologies: ["React", "Tailwind CSS", "Hacker News API"]
 status: "completed"
 featured: false
 weight: 60
-tags: ["React", "API", "تطبيقات ويب"]
+tags: ["React", "API", "web apps"]
 ---
 
-## نظرة عامة
+## Overview
 
-استنساخ لـ Hacker News يستخدم API الرسمي مع React.js و Tailwind CSS.
+A clone of Hacker News that uses the official API with React.js and Tailwind CSS.
 
-## المميزات
+## Features
 
-- عرض الأخبار والقصص
-- خانة بحث
-- فلتر للتعليقات والقصص
-- تصميم نظيف ومتجاوب
+- Display news and stories
+- Search box
+- Filter for comments and stories
+- Clean and responsive design
 
-## التقنيات
+## Technologies
 
-- React.js مع Hooks
-- Tailwind CSS للتصميم
+- React.js with Hooks
+- Tailwind CSS for styling
 - Hacker News API

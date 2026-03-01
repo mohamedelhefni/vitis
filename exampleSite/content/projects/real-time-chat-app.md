@@ -2,31 +2,31 @@
 title: "Real-Time Chat App"
 date: 2020-08-05
 draft: false
-description: "تطبيق دردشة فورية باستخدام Vue و Firebase"
+description: "Real-time chat application using Vue and Firebase"
 demoURL: "https://rtchat-18822.firebaseapp.com/"
 type: "personal"
 technologies: ["Vue.js", "Firebase", "Vuetify"]
 status: "completed"
 featured: false
 weight: 55
-tags: ["Vue.js", "Firebase", "تطبيقات ويب"]
+tags: ["Vue.js", "Firebase", "web apps"]
 ---
 
-## نظرة عامة
+## Overview
 
-تطبيق دردشة فورية مبني بـ Vue.js و Firebase.
+A real-time chat application built with Vue.js and Firebase.
 
-## التقنيات
+## Technologies
 
-- **Vuetify** للواجهة والتصميم
-- **Firebase** كـ backend لإدارة الرسائل
+- **Vuetify** for interface and design
+- **Firebase** as backend for message management
 
-## المميزات
+## Features
 
-- لا يتطلب تسجيل دخول
-- أدخل اسمك فقط وانضم للغرفة العامة
-- رسائل فورية في الوقت الحقيقي
+- No login required
+- Just enter your name and join the public room
+- Real-time instant messages
 
-## الغرض
+## Purpose
 
-مشروع جانبي للتدريب على استخدام Firebase.
+A side project for practicing Firebase usage.

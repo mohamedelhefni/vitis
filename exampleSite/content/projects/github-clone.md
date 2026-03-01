@@ -2,27 +2,27 @@
 title: "DarkHub - GitHub Clone"
 date: 2020-08-05
 draft: false
-description: "استنساخ GitHub باستخدام React و GitHub API"
+description: "GitHub clone using React and GitHub API"
 demoURL: "https://darkhub.netlify.app/"
 type: "personal"
 technologies: ["React", "GitHub API", "Materialize CSS"]
 status: "completed"
 featured: false
 weight: 65
-tags: ["React", "API", "تطبيقات ويب"]
+tags: ["React", "API", "web apps"]
 ---
 
-## نظرة عامة
+## Overview
 
-DarkHub هو استنساخ لـ GitHub يستخدم GitHub API كـ backend و React.js للواجهة الأمامية مع React Hooks.
+DarkHub is a GitHub clone that uses GitHub API as backend and React.js for the frontend with React Hooks.
 
-## المميزات
+## Features
 
-- البحث باسم المستخدم
-- عرض المستودعات
-- تصميم متجاوب بالكامل
-- واجهة داكنة أنيقة
+- Search by username
+- Display repositories
+- Fully responsive design
+- Elegant dark interface
 
-## التقنيات
+## Technologies
 
-استخدمت Materialize CSS للواجهة مع تخصيصات CSS إضافية لتحسين المظهر.
+Used Materialize CSS for the interface with additional CSS customizations to improve appearance.

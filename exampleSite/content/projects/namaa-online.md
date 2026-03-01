@@ -2,7 +2,7 @@
 title: "Namaa Online"
 date: 2022-12-20
 draft: false
-description: "منصة متعددة اللغات لحجز مواعيد الأطباء"
+description: "Multi-language platform for booking doctor appointments"
 thumbnail: ""
 projectURL: "https://namaaonline.com"
 type: "client"
@@ -13,26 +13,26 @@ weight: 5
 client: "Namaa Online"
 year: "2022"
 role: "Full-Stack Developer"
-tags: ["Laravel", "PHP", "عملاء"]
+tags: ["Laravel", "PHP", "clients"]
 ---
 
-## نظرة عامة
+## Overview
 
-NamaaOnline هو موقع متعدد اللغات مبني باستخدام إطار Laravel. تتيح ميزات التعريب المدمجة في Laravel دعم لغات متعددة بسهولة.
+NamaaOnline is a multi-language website built using the Laravel framework. Laravel's built-in localization features enable easy support for multiple languages.
 
-![العرض التوضيحي](/images/namaaonline.png)
+![Demo](/images/namaaonline.png)
 
-## التقنيات المستخدمة
+## Technologies Used
 
 ### Laravel
-إطار العمل الرئيسي مع ميزات التعريب المدمجة لتجربة مستخدم سلسة.
+Main framework with built-in localization features for seamless user experience.
 
 ### Tailwind CSS
-إطار CSS حديث لإنشاء واجهات نظيفة ومتجاوبة.
+Modern CSS framework for creating clean and responsive interfaces.
 
 ### Alpine.js
-إطار JavaScript خفيف لإضافة التفاعلية دون الحاجة لإطار كامل، مما يحافظ على بساطة الكود.
+Lightweight JavaScript framework for adding interactivity without needing a full framework, keeping code simple.
 
-## النتائج
+## Results
 
-منصة سريعة وموثوقة لحجز زيارات الأطباء عبر الإنترنت مع دعم كامل للعربية والإنجليزية.
+A fast and reliable platform for booking doctor visits online with full support for Arabic and English.

@@ -24,7 +24,7 @@
         {{- $content = replace $content $match $link -}}
     {{- else -}}
         {{- /* Mark as broken link */ -}}
-        {{- $brokenLink := printf `<span class="wikilink broken" title="صفحة غير موجودة">%s</span>` $displayText -}}
+        {{- $brokenLink := printf `<span class="wikilink broken" title="Page not found">%s</span>` $displayText -}}
         {{- $content = replace $content $match $brokenLink -}}
     {{- end -}}
 {{- end -}}

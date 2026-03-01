@@ -1,4 +1,4 @@
 ---
-title: "المشاريع"
-description: "مجموعة من المشاريع والأدوات التي قمت ببنائها"
+title: "Projects"
+description: "A collection of projects and tools I've built"
 ---

@@ -13,13 +13,13 @@
   --muted: 60 4.8% 95.9%;
   --muted-foreground: 25 5.3% 44.7%;
   --border: 20 5.9% 90%;
-  --ring: 142 40% 40%;
+  --ring: 143 50% 45%;
   
-  /* Sage green palette */
-  --sage-300: hsl(141 20% 74%);
-  --sage-400: hsl(142 17% 58%);
-  --sage-500: hsl(143 16% 43%);
-  --sage-600: hsl(144 17% 34%);
+  /* Vitis green palette - inspired by grapevine leaves */
+  --sage-300: hsl(142 24% 68%);
+  --sage-400: hsl(142 28% 52%);
+  --sage-500: hsl(143 35% 42%);
+  --sage-600: hsl(144 40% 32%);
 }
 
 .dark {
@@ -30,12 +30,12 @@
   --muted: 12 6.5% 15.1%;
   --muted-foreground: 24 5.4% 63.9%;
   --border: 12 6.5% 15.1%;
-  --ring: 142 40% 50%;
+  --ring: 142 45% 55%;
   
-  --sage-300: hsl(141 20% 40%);
-  --sage-400: hsl(141 20% 64%);
-  --sage-500: hsl(142 19% 55%);
-  --sage-600: hsl(142 19% 55%);
+  --sage-300: hsl(142 30% 50%);
+  --sage-400: hsl(142 35% 60%);
+  --sage-500: hsl(142 40% 65%);
+  --sage-600: hsl(142 45% 70%);
 }
 
 /* ===== Base Styles ===== */
@@ -719,7 +719,13 @@ pre {
 
 /* ===== Selection ===== */
 ::selection {
-  background: hsl(142 17% 58% / 0.3);
+  background: hsl(143 35% 75% / 0.4);
+  color: hsl(144 40% 15%);
+}
+
+.dark ::selection {
+  background: hsl(142 40% 40% / 0.5);
+  color: hsl(145 30% 95%);
 }
 
 /* ===== Line Clamp ===== */
@@ -1199,11 +1205,20 @@ pre {
   stroke: var(--sage-600);
   stroke-width: 2;
   transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.graph-node.current-node {
+  fill: var(--sage-600);
+  stroke: var(--sage-500);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 8px hsla(143, 35%, 42%, 0.6));
 }
 
 .graph-node.tag-node {
   fill: #f59e0b;
   stroke: #d97706;
+  stroke-width: 1.5;
 }
 
 .graph-link {
@@ -1233,7 +1248,11 @@ pre {
 
 /* Node hover states via CSS (backup for D3 transitions) */
 .node:hover .graph-node {
-  filter: brightness(1.1);
+  filter: brightness(1.2) drop-shadow(0 0 10px hsla(143, 35%, 42%, 0.5));
+}
+
+.dark .node:hover .graph-node {
+  filter: brightness(1.3) drop-shadow(0 0 12px hsla(142, 40%, 65%, 0.4));
 }
 
 .node:hover .graph-label {
@@ -1293,3 +1312,58 @@ pre {
     max-width: 180px;
   }
 }
+
+/* ===== Vitis Theme Enhancements ===== */
+
+/* Vine accent gradient */
+.vine-accent {
+  background: linear-gradient(135deg, 
+    hsl(143 35% 45%) 0%, 
+    hsl(144 40% 35%) 100%);
+}
+
+/* Subtle leaf pattern background */
+.leaf-pattern {
+  background-image: 
+    radial-gradient(circle at 20% 50%, 
+      rgba(61, 155, 92, 0.1) 0%, 
+      transparent 50%);
+}
+
+/* Enhanced navigation active state */
+.nav-link-active {
+  position: relative;
+  color: var(--sage-600);
+}
+
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    var(--sage-500), 
+    var(--sage-400));
+  border-radius: 2px;
+}
+
+/* Vitis glow effect for interactive elements */
+.vitis-glow {
+  box-shadow: 0 0 20px hsla(143, 35%, 42%, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.vitis-glow:hover {
+  box-shadow: 0 0 30px hsla(143, 35%, 42%, 0.5);
+}
+
+.dark .vitis-glow {
+  box-shadow: 0 0 20px hsla(142, 40%, 65%, 0.2);
+}
+
+.dark .vitis-glow:hover {
+  box-shadow: 0 0 30px hsla(142, 40%, 65%, 0.4);
+}
+

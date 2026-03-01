@@ -2,7 +2,7 @@
 title: "AR-Trie Package"
 date: 2022-01-01
 draft: false
-description: "مكتبة Go لبنية بيانات Trie تدعم الحروف العربية مع وظائف بحث وتخزين متقدمة"
+description: "A Go library for Trie data structure supporting Arabic characters with advanced search and storage functions"
 thumbnail: ""
 repoURL: "https://github.com/mohamedelhefni/ar-trie"
 demoURL: "https://triesearch.herokuapp.com/"
@@ -11,24 +11,24 @@ technologies: ["Go", "Data Structures", "Algorithms"]
 status: "completed"
 featured: true
 weight: 10
-tags: ["Go", "مكتبات", "خوارزميات"]
+tags: ["Go", "libraries", "algorithms"]
 ---
 
-## نظرة عامة
+## Overview
 
-مكتبة Go لتنفيذ بنية بيانات Trie تدعم نوع rune مما يتيح العمل مع الحروف العربية والإنجليزية.
+A Go library implementing a Trie data structure supporting rune type, enabling work with Arabic and English letters.
 
-## الوظائف المتاحة
+## Available Functions
 
-- **InitTrie** - تهيئة الشجرة
-- **Insert** - إدراج مفتاح واحد
-- **Find** - التحقق من وجود المفتاح
-- **Put** - ربط مفتاح بقيمة
-- **Get** - الحصول على قيمة المفتاح
-- **Delete** - حذف مفتاح
-- **Search** - البحث باستخدام البادئة
+- **InitTrie** - initialize the tree
+- **Insert** - insert a single key
+- **Find** - check if key exists
+- **Put** - associate key with value
+- **Get** - retrieve key value
+- **Delete** - remove a key
+- **Search** - search using prefix
 
-## الأداء (Benchmark)
+## Performance (Benchmark)
 
 ```
 BenchmarkInsert-12    	2260291	      523.4 ns/op	      2 B/op	      0 allocs/op
@@ -39,7 +39,7 @@ BenchmarkKeys-12      	117835408	        9.887 ns/op	      0 B/op	      0 allocs
 BenchmarkSearch-12    	28626381	      102.2 ns/op	     16 B/op	      1 allocs/op
 ```
 
-## أمثلة الاستخدام
+## Usage Examples
 
 ```go
 tr := InitTrie()
@@ -48,15 +48,28 @@ tr.Insert("mohamed")
 tr.Insert("محمد")
 tr.Insert("محمود")
 tr.Keys("مح") // [محمد محمود]
-
-tr.Put("hello", "world")
-tr.Search("he") // ["world"]
-
-tr.Find("محمد") // true
-tr.Delete("محمد")
-tr.Find("محمد") // false
 ```
 
-## تطبيق عملي
+## Quick Start
 
-تم استخدام المكتبة في بناء موقع للبحث في قاعدة بيانات تويتر المسربة.
+```bash
+go get github.com/mohamedelhefni/ar-trie
+```
+
+```go
+package main
+
+import (
+    "fmt"
+    trie "github.com/mohamedelhefni/ar-trie"
+)
+
+func main() {
+    tr := trie.InitTrie()
+    tr.Insert("mohamed")
+    tr.Insert("mahmoud")
+    
+    fmt.Println(tr.Find("mohamed")) // true
+    fmt.Println(tr.Search("mo"))     // [mohamed mahmoud]
+}
+```

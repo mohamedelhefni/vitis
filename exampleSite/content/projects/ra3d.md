@@ -1,8 +1,8 @@
 ---
-title: "Ra3d - عميل Torrent"
+title: "Ra3d - Torrent Client"
 date: 2024-09-09
 draft: false
-description: "عميل Torrent بسيط مكتوب بلغة Go"
+description: "Simple Torrent client written in Go"
 thumbnail: ""
 repoURL: "https://github.com/mohamedelhefni/ra3d/"
 type: "open-source"
@@ -10,20 +10,20 @@ technologies: ["Go", "BitTorrent", "Networking"]
 status: "in-progress"
 featured: false
 weight: 25
-tags: ["Go", "مفتوح المصدر", "شبكات"]
+tags: ["Go", "open source", "networking"]
 ---
 
-## نظرة عامة
+## Overview
 
-عميل Torrent بسيط مكتوب بلغة Go.
+A simple Torrent client written in Go.
 
-## المميزات الحالية
+## Current Features
 
-- معالجة ملفات .torrent
-- دعم متتبعات HTTP و UDP
+- Process .torrent files
+- Support for HTTP and UDP trackers
 
-## المهام القادمة
+## Upcoming Tasks
 
-- [ ] دعم روابط Magnet
-- [ ] استئناف التحميلات (حفظ البيانات على القرص)
-- [ ] دعم تحميل المجلدات
+- [ ] Support for Magnet links
+- [ ] Resume downloads (save data to disk)
+- [ ] Support for downloading folders

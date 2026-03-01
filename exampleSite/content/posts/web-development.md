@@ -1,29 +1,29 @@
 ---
-title: "تطوير الويب الحديث"
+title: "Modern Web Development"
 date: 2024-01-20
-tags: ["برمجة", "تطوير الويب", "تقنية"]
+tags: ["programming", "web development", "technology"]
 ---
 
-## مقدمة في تطوير الويب
+## Introduction to Web Development
 
-تطوير الويب الحديث يشمل العديد من التقنيات والأدوات التي تساعد المطورين على بناء مواقع وتطبيقات ويب متقدمة.
+Modern web development includes many technologies and tools that help developers build advanced websites and web applications.
 
-### التقنيات الأساسية
+### Core Technologies
 
-يعتمد تطوير الويب على ثلاث تقنيات رئيسية:
+Web development relies on three main technologies:
 
-- **HTML** - لهيكلة المحتوى
-- **CSS** - للتنسيق والتصميم
-- **[[البرمجة بلغة جافاسكريبت]]** - للتفاعلية
+- **HTML** - for content structure
+- **CSS** - for styling and design
+- **[[Programming with JavaScript]]** - for interactivity
 
-### أدوات التطوير
+### Development Tools
 
-من الأدوات الشائعة في تطوير الويب:
+Common tools in web development:
 
-1. محررات الأكواد مثل VS Code
-2. أنظمة التحكم في الإصدارات مثل [[Git و GitHub]]
-3. أدوات البناء مثل Webpack
+1. Code editors like VS Code
+2. Version control systems like [[Git and GitHub]]
+3. Build tools like Webpack
 
-### أفضل الممارسات
+### Best Practices
 
-للتعرف على أفضل الممارسات، اقرأ عن [[أساسيات البرمجة]].
+To learn about best practices, read about [[Programming Basics]].

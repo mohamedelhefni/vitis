@@ -2,7 +2,6 @@ baseURL = "https://vitis.netlify.app/"
 title = "Vitis"
 languageCode = "en"
 defaultContentLanguage = "en"
-themesDir = "../.."
 
 # Enable useful features
 enableRobotsTXT = false
@@ -27,8 +26,10 @@ changefreq = "weekly"
 priority = 0.5
 filename = "sitemap.xml"
 
-# Theme configuration (local development)
-theme = "vitis"
+# Hugo Modules
+[module]
+  [[module.imports]]
+    path = "github.com/mohamedelhefni/vitis"
 
 # Navigation Menu
 [menu]

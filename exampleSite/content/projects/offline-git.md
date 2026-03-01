@@ -2,7 +2,7 @@
 title: "Offline Git"
 date: 2022-12-20
 draft: false
-description: "تطبيق ويب لتصفح مستودعات Git بدون اتصال مع دعم PWA"
+description: "Web app for browsing Git repositories offline with PWA support"
 thumbnail: ""
 demoURL: "https://offlinegit.netlify.app/"
 repoURL: "https://github.com/mohamedelhefni/offlinegit"
@@ -11,18 +11,18 @@ technologies: ["React", "TypeScript", "Go", "IndexedDB", "PWA"]
 status: "completed"
 featured: true
 weight: 20
-tags: ["React", "TypeScript", "Go", "أدوات"]
+tags: ["React", "TypeScript", "Go", "tools"]
 ---
 
-## نظرة عامة
+## Overview
 
-تطبيق ويب يتيح تصفح مستودعات Git بدون اتصال بالإنترنت مع دعم PWA.
+A web app that allows browsing Git repositories offline with PWA support.
 
-![العرض التوضيحي](https://raw.githubusercontent.com/mohamedelhefni/offlinegit/main/img/demo.gif)
+![Demo](https://raw.githubusercontent.com/mohamedelhefni/offlinegit/main/img/demo.gif)
 
-## المميزات
+## Features
 
-- تحميل المستودعات للاستخدام دون اتصال
-- تخزين البيانات محلياً باستخدام IndexedDB
-- يعمل كتطبيق PWA
-- واجهة سهلة الاستخدام
+- Download repositories for offline use
+- Store data locally using IndexedDB
+- Works as a PWA
+- Easy-to-use interface
