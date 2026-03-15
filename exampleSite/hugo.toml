@@ -1,4 +1,4 @@
-baseURL = "https://vitis.netlify.app/"
+baseURL = "https://vitis-demo.netlify.app/"
 title = "Vitis"
 languageCode = "en"
 defaultContentLanguage = "en"
@@ -93,7 +93,7 @@ github = "yourusername"
 #   [params.analytics.google]
 #     id = "G-XXXXXXXXXX"
 #   [params.analytics.plausible]
-#     domain = "vitis.netlify.app"
+#     domain = "vitis-demo.netlify.app"
 #   [params.analytics.siraaj]
 #     apiUrl = "https://siraaj.live"
 #     projectId = "vitis"

@@ -3,7 +3,7 @@ license = "MIT"
 licenselink = "https://github.com/mohamedelhefni/vitis/blob/main/LICENSE"
 description = "A modern Hugo theme designed as a digital garden with Obsidian-like features including wiki-links, knowledge graph, backlinks, and series support."
 homepage = "https://github.com/mohamedelhefni/vitis"
-demosite = "https://vitis.netlify.app/"
+demosite = "https://vitis-demo.netlify.app/"
 
 tags = [
     "blog",

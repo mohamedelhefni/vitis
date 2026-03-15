@@ -6,7 +6,7 @@ A modern Hugo theme designed as a digital garden with Obsidian-like features inc
 
 ## Demo
 
-[Live Demo](https://vitis.netlify.app/)
+[Live Demo](https://vitis-demo.netlify.app/)
 
 ## Features
 
