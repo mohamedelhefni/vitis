@@ -95,7 +95,7 @@ github = "yourusername"
 #   [params.analytics.plausible]
 #     domain = "vitis-demo.netlify.app"
 #   [params.analytics.siraaj]
-#     apiUrl = "https://siraaj.live"
+#     apiUrl = "https://analytics.hefni101.dev"
 #     projectId = "vitis"
 #     autoTrack = true
 
